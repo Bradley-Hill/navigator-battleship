@@ -9,3 +9,9 @@ test("The ship objects should have the length, impacts and sunk properties", () 
   expect(ship()).toHaveProperty("impacts");
   expect(ship()).toHaveProperty("sunk");
 });
+
+test("The ship object has a hit() which increments the impacts prop/changes the sunk prop", () => {
+  let testShip = ship();
+  testShip.hit();
+  expect(testShip.impacts).toBe(1);
+});
