@@ -10,8 +10,15 @@ test("The ship objects should have the length, impacts and sunk properties", () 
   expect(ship()).toHaveProperty("sunk");
 });
 
-test("The ship object has a hit() which increments the impacts prop/changes the sunk prop", () => {
+test("The ship object has a hit() which increments the impacts prop", () => {
   let testShip = ship();
   testShip.hit();
   expect(testShip.impacts).toBe(1);
+});
+
+test("The ship prop sunk changes to true when the impacts value is equal to/greater than the length value", () => {
+  let testShip = ship({ length: 2 });
+  testShip.hit();
+  testShip.hit();
+  expect(testShip.sunk).toBe(true);
 });
