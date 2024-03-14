@@ -3,6 +3,7 @@ interface Ship {
   impacts: number;
   sunk: boolean;
   hit(): void;
+  isSunk(): void;
 }
 
 function createShip(): Ship {
@@ -12,6 +13,8 @@ function createShip(): Ship {
     sunk: false,
     hit() {
       this.impacts++;
+    },
+    isSunk() {
       if (this.impacts >= this.length) {
         this.sunk = true;
       }

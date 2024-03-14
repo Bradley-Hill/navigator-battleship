@@ -20,5 +20,6 @@ test("The ship prop sunk changes to true when the impacts value is equal to/grea
   let testShip = ship({ length: 2 });
   testShip.hit();
   testShip.hit();
+  testShip.isSunk();
   expect(testShip.sunk).toBe(true);
 });
