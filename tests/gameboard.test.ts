@@ -44,3 +44,10 @@ test("Ship should register its position when placed on the gameboard", () => {
     ]);
   }
 });
+
+test("Ship should not be placed outside the bounds of the gameboard", () => {
+  const gameboard = createGameboard(5);
+  gameboard.createShips(4, 4, 3, "horizontal");
+  const ship = gameboard.grid[4][4].ship;
+  expect(ship).toBeNull();
+});
