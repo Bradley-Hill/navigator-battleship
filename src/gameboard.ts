@@ -8,7 +8,12 @@ export type Cell = {
 
 interface Gameboard {
   grid: Cell[][];
-  createShips(gameboardX: number, gameboardY: number): any;
+  createShips(
+    gameboardX: number,
+    gameboardY: number,
+    shipSize: number,
+    orientation: "horizontal" | "vertical"
+  ): any;
 }
 
 export function createGameboard(size: number): Gameboard {
@@ -20,11 +25,30 @@ export function createGameboard(size: number): Gameboard {
         ship: null,
       }))
     ),
-    createShips(gameboardX: number, gameboardY: number) {
+    createShips(
+      gameboardX: number,
+      gameboardY: number,
+      shipSize: number,
+      orientation: "horizontal" | "vertical"
+    ) {
       let ship = createShip();
-      ship.position = [[gameboardX, gameboardY]];
-      gameboard.grid[gameboardX][gameboardY].ship = ship;
-      gameboard.grid[gameboardX][gameboardY].occupied = true;
+      ship.position = [];
+
+      for (let i = 0; i < shipSize; i++) {
+        if (orientation === "horizontal") {
+          if (gameboardX + i < size) {
+            ship.position.push([gameboardX + i, gameboardY]);
+            gameboard.grid[gameboardX + i][gameboardY].ship = ship;
+            gameboard.grid[gameboardX + i][gameboardY].occupied = true;
+          }
+        } else {
+          if (gameboardY + i < size) {
+            ship.position.push([gameboardX, gameboardY + i]);
+            gameboard.grid[gameboardX][gameboardY + i].ship = ship;
+            gameboard.grid[gameboardX][gameboardY + i].occupied = true;
+          }
+        }
+      }
     },
   };
   return gameboard;
