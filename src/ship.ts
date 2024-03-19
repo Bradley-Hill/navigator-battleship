@@ -1,4 +1,4 @@
-interface Ship {
+export interface Ship {
   length: number;
   impacts: number;
   sunk: boolean;
@@ -6,7 +6,7 @@ interface Ship {
   isSunk(): void;
 }
 
-function createShip(): Ship {
+export function createShip(): Ship {
   return {
     length: 0,
     impacts: 0,
