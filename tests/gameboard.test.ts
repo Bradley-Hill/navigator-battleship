@@ -1,22 +1,21 @@
-import { Cell } from "../src/gameboard";
-
-const gameboard = require("../src/gameboard");
+import { createGameboard, Cell } from "../src/gameboard";
 
 test("Does createGameboard return an object", () => {
-  expect(typeof gameboard()).toBe("object");
+  const gameboard = createGameboard(5);
+  expect(typeof gameboard).toBe("object");
 });
 
 test("The gameboard.grid should be a 2d array of co-ordinates", () => {
-  const result = gameboard();
-  expect(result).toHaveProperty("grid");
-  expect(Array.isArray(result.grid)).toBe(true);
-  result.grid.forEach((subArray: [][]) => {
+  const gameboard = createGameboard(5);
+  expect(gameboard).toHaveProperty("grid");
+  expect(Array.isArray(gameboard.grid)).toBe(true);
+  gameboard.grid.forEach((subArray: Cell[]) => {
     expect(Array.isArray(subArray)).toBe(true);
   });
 });
 
 test("Each cell of the gameboard contains the appropriate object", () => {
-  const result = gameboard();
+  const result = createGameboard(5);
   result.grid.forEach((row: Cell[]) => {
     row.forEach((cell: Cell) => {
       expect(typeof cell).toBe("object");
@@ -27,7 +26,7 @@ test("Each cell of the gameboard contains the appropriate object", () => {
 });
 
 test("Expect the gameboard to have a method for calling the createShips function", () => {
-  const result = gameboard();
+  const result = createGameboard(5);
   expect(result).toHaveProperty("createShips");
   expect(typeof result.createShips).toBe("function");
 });

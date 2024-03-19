@@ -11,7 +11,7 @@ interface Gameboard {
   createShips(gameboardX: number, gameboardY: number): any;
 }
 
-function createGameboard(size: number): Gameboard {
+export function createGameboard(size: number): Gameboard {
   let gameboard: Gameboard = {
     grid: Array.from({ length: size }, () =>
       Array.from({ length: size }, () => ({ occupied: false, hit: false }))
@@ -23,5 +23,3 @@ function createGameboard(size: number): Gameboard {
   };
   return gameboard;
 }
-
-module.exports = createGameboard;

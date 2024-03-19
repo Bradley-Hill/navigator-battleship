@@ -8,7 +8,7 @@ export interface Ship {
 
 export function createShip(): Ship {
   return {
-    length: 0,
+    length: 1,
     impacts: 0,
     sunk: false,
     hit() {
