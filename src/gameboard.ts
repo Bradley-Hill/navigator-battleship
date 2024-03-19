@@ -3,7 +3,7 @@ import { createShip, Ship } from "../src/ship";
 export type Cell = {
   occupied: boolean;
   hit: boolean;
-  ship?: Ship;
+  ship: Ship | null;
 };
 
 interface Gameboard {
@@ -14,10 +14,16 @@ interface Gameboard {
 export function createGameboard(size: number): Gameboard {
   let gameboard: Gameboard = {
     grid: Array.from({ length: size }, () =>
-      Array.from({ length: size }, () => ({ occupied: false, hit: false }))
+      Array.from({ length: size }, () => ({
+        occupied: false,
+        hit: false,
+        ship: null,
+      }))
     ),
     createShips(gameboardX: number, gameboardY: number) {
-      gameboard.grid[gameboardX][gameboardY].ship = createShip();
+      let ship = createShip();
+      ship.position = [[gameboardX, gameboardY]];
+      gameboard.grid[gameboardX][gameboardY].ship = ship;
       gameboard.grid[gameboardX][gameboardY].occupied = true;
     },
   };

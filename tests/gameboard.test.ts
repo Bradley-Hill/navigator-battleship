@@ -30,3 +30,17 @@ test("Expect the gameboard to have a method for calling the createShips function
   expect(result).toHaveProperty("createShips");
   expect(typeof result.createShips).toBe("function");
 });
+
+test("Ship should register its position when placed on the gameboard", () => {
+  const gameboard = createGameboard(5);
+  gameboard.createShips(0, 0, 3, "horizontal");
+  const ship = gameboard.grid[0][0].ship;
+  expect(ship).not.toBeNull();
+  if (ship) {
+    expect(ship.position).toEqual([
+      [0, 0],
+      [1, 0],
+      [2, 0],
+    ]);
+  }
+});

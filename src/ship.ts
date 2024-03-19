@@ -2,6 +2,7 @@ export interface Ship {
   length: number;
   impacts: number;
   sunk: boolean;
+  position: [number, number][] | null;
   hit(): void;
   isSunk(): void;
 }
@@ -11,6 +12,7 @@ export function createShip(): Ship {
     length: 1,
     impacts: 0,
     sunk: false,
+    position: null,
     hit() {
       this.impacts++;
     },
@@ -21,5 +23,3 @@ export function createShip(): Ship {
     },
   };
 }
-
-module.exports = createShip;
