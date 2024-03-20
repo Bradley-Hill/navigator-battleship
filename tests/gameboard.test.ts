@@ -93,3 +93,10 @@ test("Expect a ship at the coordinates of receiveAttack method to have its isHit
     throw new Error("Ship could not be created");
   }
 });
+
+test("Expect a receiveAttack that does not hit a ship to be recorded as a missed attack", () => {
+  const gameboard = createGameboard(5);
+  gameboard.createShips(1, 1, 2, "horizontal");
+  gameboard.receiveAttack(3, 3);
+  expect(gameboard.missedAttacks).toContain([3, 3]);
+});
