@@ -50,3 +50,11 @@ test("Ship should not be placed outside the bounds of the gameboard", () => {
   const shipCreated = gameboard.createShips(4, 4, 3, "horizontal");
   expect(shipCreated).toBe(false);
 });
+
+test("Ships should not be able to overlap on the gameboard.grid", () => {
+  const gameboard = createGameboard(9);
+  const firstShip = gameboard.createShips(4, 4, 3, "horizontal");
+  const secondShip = gameboard.createShips(3, 5, 3, "vertical");
+  expect(firstShip).toBe(true);
+  expect(secondShip).toBe(false);
+});
