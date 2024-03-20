@@ -64,3 +64,15 @@ test("Expect the gameboard to have a method for receiving an attack", () => {
   expect(result).toHaveProperty("receiveAttack");
   expect(typeof result.createShips).toBe("function");
 });
+
+test("Expect the receiveAttack method to take two numbers as arguments", () => {
+  const gameboard = createGameboard(5);
+  const receiveAttack = gameboard.receiveAttack;
+
+  gameboard.receiveAttack = jest.fn(receiveAttack);
+  gameboard.receiveAttack(1, 2);
+  expect(gameboard.receiveAttack).toHaveBeenCalledWith(
+    expect.any(Number),
+    expect.any(Number)
+  );
+});

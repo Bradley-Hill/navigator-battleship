@@ -14,6 +14,7 @@ interface Gameboard {
     shipSize: number,
     orientation: "horizontal" | "vertical"
   ): boolean;
+  receiveAttack(gameboardX: number, gameboardY: number): void;
 }
 
 export function createGameboard(size: number): Gameboard {
@@ -66,6 +67,9 @@ export function createGameboard(size: number): Gameboard {
         }
       }
       return true;
+    },
+    receiveAttack(gameboardX: number, gameboardY: number): void {
+      gameboard.grid[gameboardX][gameboardY].hit = true;
     },
   };
   return gameboard;
