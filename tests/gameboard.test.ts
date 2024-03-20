@@ -98,5 +98,5 @@ test("Expect a receiveAttack that does not hit a ship to be recorded as a missed
   const gameboard = createGameboard(5);
   gameboard.createShips(1, 1, 2, "horizontal");
   gameboard.receiveAttack(3, 3);
-  expect(gameboard.missedAttacks).toContain([3, 3]);
+  expect(gameboard.missedAttacks).toContainEqual([3, 3]);
 });

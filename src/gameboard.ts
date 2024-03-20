@@ -15,6 +15,7 @@ interface Gameboard {
     orientation: "horizontal" | "vertical"
   ): Ship | null;
   receiveAttack(gameboardX: number, gameboardY: number): void;
+  missedAttacks: [number, number][];
 }
 
 export function createGameboard(size: number): Gameboard {
@@ -52,8 +53,11 @@ export function createGameboard(size: number): Gameboard {
       gameboard.grid[gameboardX][gameboardY].hit = true;
       if (gameboard.grid[gameboardX][gameboardY].occupied) {
         gameboard.grid[gameboardX][gameboardY].ship?.hit();
+      } else {
+        gameboard.missedAttacks.push([gameboardX, gameboardY]);
       }
     },
+    missedAttacks: [],
   };
   return gameboard;
 }
