@@ -95,8 +95,34 @@ test("Expect a ship at the coordinates of receiveAttack method to have its isHit
 });
 
 test("Expect a receiveAttack that does not hit a ship to be recorded as a missed attack", () => {
-  const gameboard = createGameboard(5);
+  const gameboard = createGameboard(9);
   gameboard.createShips(1, 1, 2, "horizontal");
   gameboard.receiveAttack(3, 3);
+  gameboard.receiveAttack(5, 5);
   expect(gameboard.missedAttacks).toContainEqual([3, 3]);
+  expect(gameboard.missedAttacks).toContainEqual([5, 5]);
+});
+
+test("Expect gameboard to have method that checks if all ships have been sunk", () => {
+  const gameboard = createGameboard(9);
+  expect(typeof gameboard.allShipsSunk).toBe("function");
+});
+
+test("Expect allShipsSunk method to return false if there are ships that have not sunk on the gameboard", () => {
+  const gameboard = createGameboard(9);
+  gameboard.createShips(1, 1, 2, "vertical");
+  gameboard.createShips(8, 8, 1, "vertical");
+  gameboard.receiveAttack(1, 1);
+  gameboard.receiveAttack(1, 2);
+  const allShipsSunk = gameboard.allShipsSunk();
+  expect(allShipsSunk).toBe(false);
+});
+
+test("Expect allShipsSunk to return true if all ships on gameboard have sunk", () => {
+  const gameboard = createGameboard(9);
+  gameboard.createShips(1, 1, 2, "vertical");
+  gameboard.receiveAttack(1, 1);
+  gameboard.receiveAttack(1, 2);
+  const allShipsSunk = gameboard.allShipsSunk();
+  expect(allShipsSunk).toBe(true);
 });

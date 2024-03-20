@@ -16,6 +16,7 @@ interface Gameboard {
   ): Ship | null;
   receiveAttack(gameboardX: number, gameboardY: number): void;
   missedAttacks: [number, number][];
+  allShipsSunk(): boolean;
 }
 
 export function createGameboard(size: number): Gameboard {
@@ -58,6 +59,21 @@ export function createGameboard(size: number): Gameboard {
       }
     },
     missedAttacks: [],
+    allShipsSunk() {
+      for (let i = 0; i < this.grid.length; i++) {
+        for (let j = 0; j < this.grid.length; j++) {
+          if (this.grid[i][j].occupied) {
+            this.grid[i][j].ship?.isSunk();
+            if (!this.grid[i][j].ship?.sunk) {
+              return false;
+            } else {
+              continue;
+            }
+          }
+        }
+      }
+      return true;
+    },
   };
   return gameboard;
 }
