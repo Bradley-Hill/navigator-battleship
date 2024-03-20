@@ -19,7 +19,7 @@ test("Each cell of the gameboard contains the appropriate object", () => {
   result.grid.forEach((row: Cell[]) => {
     row.forEach((cell: Cell) => {
       expect(typeof cell).toBe("object");
-      expect(cell).toHaveProperty("occupied");
+      expect(cell).toHaveProperty("occupied", false);
       expect(cell).toHaveProperty("hit", false);
     });
   });
@@ -53,8 +53,14 @@ test("Ship should not be placed outside the bounds of the gameboard", () => {
 
 test("Ships should not be able to overlap on the gameboard.grid", () => {
   const gameboard = createGameboard(9);
-  const firstShip = gameboard.createShips(4, 4, 3, "horizontal");
-  const secondShip = gameboard.createShips(3, 5, 3, "vertical");
+  const firstShip = gameboard.createShips(4, 5, 3, "horizontal");
+  const secondShip = gameboard.createShips(4, 4, 3, "vertical");
   expect(firstShip).toBe(true);
   expect(secondShip).toBe(false);
+});
+
+test("Expect the gameboard to have a method for receiving an attack", () => {
+  const result = createGameboard(5);
+  expect(result).toHaveProperty("receiveAttack");
+  expect(typeof result.createShips).toBe("function");
 });
