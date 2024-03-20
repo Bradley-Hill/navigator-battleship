@@ -7,9 +7,9 @@ export interface Ship {
   isSunk(): void;
 }
 
-export function createShip(): Ship {
+export function createShip(size: number): Ship {
   return {
-    length: 1,
+    length: size,
     impacts: 0,
     sunk: false,
     position: null,
