@@ -76,3 +76,16 @@ test("Expect the receiveAttack method to take two numbers as arguments", () => {
     expect.any(Number)
   );
 });
+
+test("Expect the receiveAttack method to change the gamboard.grid cell hit property to true", () => {
+  const gameboard = createGameboard(5);
+  gameboard.receiveAttack(1, 1);
+  expect(gameboard.grid[1][1]).toHaveProperty("hit", true);
+});
+
+test("Expect a ship at the coordinates of receiveAttack method to have its isHit method called", () => {
+  const gameboard = createGameboard(5);
+  const ship = gameboard.createShips(1, 1, 2, "vertical");
+  gameboard.receiveAttack(1, 1);
+  expect(ship).toHaveProperty("impacts", 1);
+});
