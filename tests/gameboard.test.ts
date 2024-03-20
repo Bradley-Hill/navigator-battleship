@@ -48,15 +48,15 @@ test("Ship should register its position when placed on the gameboard", () => {
 test("Ship should not be placed outside the bounds of the gameboard", () => {
   const gameboard = createGameboard(5);
   const shipCreated = gameboard.createShips(4, 4, 3, "horizontal");
-  expect(shipCreated).toBe(false);
+  expect(shipCreated).toBe(null);
 });
 
 test("Ships should not be able to overlap on the gameboard.grid", () => {
   const gameboard = createGameboard(9);
   const firstShip = gameboard.createShips(4, 5, 3, "horizontal");
   const secondShip = gameboard.createShips(4, 4, 3, "vertical");
-  expect(firstShip).toBe(true);
-  expect(secondShip).toBe(false);
+  expect(firstShip).toBe(firstShip);
+  expect(secondShip).toBe(null);
 });
 
 test("Expect the gameboard to have a method for receiving an attack", () => {
@@ -86,6 +86,10 @@ test("Expect the receiveAttack method to change the gamboard.grid cell hit prope
 test("Expect a ship at the coordinates of receiveAttack method to have its isHit method called", () => {
   const gameboard = createGameboard(5);
   const ship = gameboard.createShips(1, 1, 2, "vertical");
-  gameboard.receiveAttack(1, 1);
-  expect(ship).toHaveProperty("impacts", 1);
+  if (ship) {
+    gameboard.receiveAttack(1, 1);
+    expect(ship.impacts).toBe(1);
+  } else {
+    throw new Error("Ship could not be created");
+  }
 });
