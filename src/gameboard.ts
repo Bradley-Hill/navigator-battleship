@@ -55,8 +55,8 @@ export function createGameboard(size: number): Gameboard {
       return ship;
     },
     receiveAttack(gameboardX: number, gameboardY: number): void {
-      gameboard.grid[gameboardX][gameboardY].hit = true;
       if (gameboard.grid[gameboardX][gameboardY].occupied) {
+        gameboard.grid[gameboardX][gameboardY].hit = true;
         gameboard.grid[gameboardX][gameboardY].ship?.hit();
       } else {
         gameboard.missedAttacks.push([gameboardX, gameboardY]);

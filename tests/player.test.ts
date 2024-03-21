@@ -41,4 +41,16 @@ test("Expect the makeMove method to correctly submit an attack to the other play
   expect(compPlayer.gameboard.allShipsSunk()).toBe(true);
 });
 
-test("Expect the opponents gameboard to report the missed shots");
+test("Expect the opponents gameboard to report the missed shots and hit coordinates", () => {
+  const humanPlayer = createPlayer(true);
+  const compPlayer = createPlayer(false);
+  compPlayer.gameboard.createShips(1, 1, 3, "vertical");
+  humanPlayer.makeMove(1, 3, compPlayer);
+  humanPlayer.makeMove(1, 6, compPlayer);
+  humanPlayer.makeMove(3, 3, compPlayer);
+  expect(compPlayer.gameboard.getHitCells()).toEqual([[1, 3]]);
+  expect(compPlayer.gameboard.getMissedShots()).toEqual([
+    [1, 6],
+    [3, 3],
+  ]);
+});
