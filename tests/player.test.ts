@@ -54,3 +54,15 @@ test("Expect the opponents gameboard to report the missed shots and hit coordina
     [3, 3],
   ]);
 });
+
+test("Expect computer player to make a valid random move", () => {
+  const humanPlayer = createPlayer(true);
+  const compPlayer = createPlayer(false);
+  humanPlayer.gameboard.createShips(1, 1, 3, "vertical");
+
+  compPlayer.makeMove(0, 0, humanPlayer);
+
+  const missedShots = humanPlayer.gameboard.getMissedShots();
+  const hitCells = humanPlayer.gameboard.getHitCells();
+  expect(missedShots.length + hitCells.length).toBe(1);
+});
