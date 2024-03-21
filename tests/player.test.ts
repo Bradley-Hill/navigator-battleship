@@ -20,3 +20,25 @@ test("Expect the player object to have a property of name", () => {
   const player = createPlayer(false);
   expect(player).toHaveProperty("name");
 });
+
+test("Expect the player object to have a isMyTurn property", () => {
+  const player = createPlayer(true);
+  expect(player).toHaveProperty("isMyTurn");
+});
+
+test("Expect teh player object to have a method to make an attack on the other players gameboard", () => {
+  const player = createPlayer(true);
+  expect(player).toHaveProperty("makeMove");
+  expect(typeof player.makeMove).toBe("function");
+});
+
+test("Expect the makeMove method to correctly submit an attack to the other players gameboard", () => {
+  const humanPlayer = createPlayer(true);
+  const compPlayer = createPlayer(false);
+  compPlayer.gameboard.createShips(1, 1, 2, "vertical");
+  humanPlayer.makeMove(1, 1, compPlayer);
+  humanPlayer.makeMove(1, 2, compPlayer);
+  expect(compPlayer.gameboard.allShipsSunk()).toBe(true);
+});
+
+test("Expect the opponents gameboard to report the missed shots");

@@ -7,6 +7,7 @@ export type Cell = {
 };
 
 export interface Gameboard {
+  size: number;
   grid: Cell[][];
   createShips(
     gameboardX: number,
@@ -17,10 +18,13 @@ export interface Gameboard {
   receiveAttack(gameboardX: number, gameboardY: number): void;
   missedAttacks: [number, number][];
   allShipsSunk(): boolean;
+  getMissedShots: () => number[][];
+  getHitCells: () => number[][];
 }
 
 export function createGameboard(size: number): Gameboard {
   let gameboard: Gameboard = {
+    size: size,
     grid: Array.from({ length: size }, () =>
       Array.from({ length: size }, () => ({
         occupied: false,
@@ -73,6 +77,20 @@ export function createGameboard(size: number): Gameboard {
         }
       }
       return true;
+    },
+    getMissedShots: function () {
+      return this.missedAttacks;
+    },
+    getHitCells: function () {
+      const hitCells: number[][] = [];
+      for (let i = 0; i < this.size; i++) {
+        for (let j = 0; j < this.size; j++) {
+          if (this.grid[i][j].hit) {
+            hitCells.push([i, j]);
+          }
+        }
+      }
+      return hitCells;
     },
   };
   return gameboard;
