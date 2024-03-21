@@ -6,7 +6,7 @@ export type Cell = {
   ship: Ship | null;
 };
 
-interface Gameboard {
+export interface Gameboard {
   grid: Cell[][];
   createShips(
     gameboardX: number,
