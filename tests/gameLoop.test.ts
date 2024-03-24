@@ -1,5 +1,3 @@
-import { createGameboard, Gameboard } from "../src/gameboard";
-import { createPlayer, Player } from "../src/player";
 import { createGameLoop } from "../src/gameLoop";
 
 test("Expect the gameLoop to create a human player and computer player,with gameBoards", () => {
