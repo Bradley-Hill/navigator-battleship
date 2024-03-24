@@ -13,7 +13,14 @@ export function createGameLoop(): Gameloop {
     compPlayer: createPlayer(false),
     startGame: function () {
       this.humanPlayer.gameboard = createGameboard(10);
+      this.humanPlayer.gameboard.createShips(0, 0, 1, "horizontal");
+      this.humanPlayer.gameboard.createShips(0, 1, 1, "horizontal");
+      this.humanPlayer.gameboard.createShips(0, 2, 1, "horizontal");
+
       this.compPlayer.gameboard = createGameboard(10);
+      this.compPlayer.gameboard.createShips(0, 0, 1, "horizontal");
+      this.compPlayer.gameboard.createShips(0, 1, 1, "horizontal");
+      this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
     },
   };
   return gameLoop;
