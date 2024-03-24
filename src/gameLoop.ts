@@ -5,6 +5,7 @@ export interface Gameloop {
   startGame: () => void;
   humanPlayer: Player;
   compPlayer: Player;
+  manageTurns: () => void;
 }
 
 export function createGameLoop(): Gameloop {
@@ -21,6 +22,10 @@ export function createGameLoop(): Gameloop {
       this.compPlayer.gameboard.createShips(0, 0, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 1, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
+    },
+    manageTurns: function () {
+      this.humanPlayer.isMyTurn = this.humanPlayer.isMyTurn ? false : true;
+      this.compPlayer.isMyTurn = this.compPlayer.isMyTurn ? false : true;
     },
   };
   return gameLoop;
