@@ -22,3 +22,23 @@ test("Expect the gameLoop to place 3 ships on each gameboard", () => {
   expect(gameLoop.compPlayer.gameboard.grid[0][1].ship).not.toBeNull();
   expect(gameLoop.compPlayer.gameboard.grid[0][2].ship).not.toBeNull();
 });
+
+test("Expect the gameLoop to manage turn alternating between players", () => {
+  const gameLoop = createGameLoop();
+  gameLoop.startGame();
+
+  expect(gameLoop.humanPlayer.isMyTurn).toBe(true);
+  expect(gameLoop.compPlayer.isMyTurn).toBe(false);
+
+  gameLoop.humanPlayer.makeMove(0, 0, compPlayer);
+  gameLoop.manageTurns();
+
+  expect(gameLoop.humanPlayer.isMyTurn).toBe(false);
+  expect(gameLoop.compPlayer.isMyTurn).toBe(true);
+
+  gameLoop.compPlayer.makeMove(0, 0, humanPlayer);
+  gameLoop.manageTurns();
+
+  expect(gameLoop.humanPlayer.isMyTurn).toBe(true);
+  expect(gameLoop.compPlayer.isMyTurn).toBe(false);
+});

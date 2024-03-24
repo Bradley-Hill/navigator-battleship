@@ -13,7 +13,7 @@ export function createPlayer(isHuman: boolean): Player {
     isHuman: isHuman,
     gameboard: createGameboard(10),
     name: isHuman ? "Player 1" : "Player 2",
-    isMyTurn: true,
+    isMyTurn: isHuman,
     makeMove: function (x: number, y: number, opponent: Player) {
       if (!this.isHuman) {
         let validMove = false;
