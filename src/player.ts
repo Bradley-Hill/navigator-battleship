@@ -1,6 +1,6 @@
 import { createGameboard, Gameboard } from "../src/gameboard";
 
-interface Player {
+export interface Player {
   isHuman: boolean;
   gameboard: Gameboard;
   name: "Player 1" | "Player 2";
