@@ -16,7 +16,7 @@ export function createPlayer(isHuman: boolean): Player {
     gameboard: createGameboard(10),
     name: isHuman ? "Player 1" : "Player 2",
     isMyTurn: isHuman,
-    makeHumanMove: function (x: number, y: number, opponent: Player) {
+    makeHumanMove: function (x: number = 0, y: number = 0, opponent: Player) {
       if (this.isHuman) {
         opponent.gameboard.receiveAttack(x, y);
       }

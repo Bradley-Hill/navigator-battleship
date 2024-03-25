@@ -25,14 +25,16 @@ export function createGameLoop(): Gameloop {
       this.compPlayer.gameboard.createShips(0, 1, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
 
-      while(!this.gameOver){
+      while (!this.gameOver) {
         this.manageTurns();
         this.checkEndOfGame();
       }
     },
     manageTurns: function () {
       if (this.humanPlayer.isMyTurn) {
-        this.humanPlayer.makeHumanMove(/* pass coordinates here from the DOM */, this.compPlayer);
+        this.humanPlayer.makeHumanMove(
+          /* Take co-ordinates from DOM manipulation */ this.compPlayer
+        );
       } else {
         this.compPlayer.makeComputerMove(this.humanPlayer);
       }
@@ -49,7 +51,7 @@ export function createGameLoop(): Gameloop {
         this.gameOver = true;
       }
     },
-    gameOver: false
+    gameOver: false,
   };
   return gameLoop;
 }
