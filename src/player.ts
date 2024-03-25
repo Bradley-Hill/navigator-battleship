@@ -5,7 +5,8 @@ export interface Player {
   gameboard: Gameboard;
   name: "Player 1" | "Player 2";
   isMyTurn: boolean;
-  makeMove: (x: number, y: number, opponent: Player) => void;
+  makeHumanMove: (x: number, y: number, opponent: Player) => void;
+  makeComputerMove: (opponent: Player) => void;
   toggleTurn: () => void;
 }
 
@@ -15,9 +16,17 @@ export function createPlayer(isHuman: boolean): Player {
     gameboard: createGameboard(10),
     name: isHuman ? "Player 1" : "Player 2",
     isMyTurn: isHuman,
-    makeMove: function (x: number, y: number, opponent: Player) {
+    makeHumanMove: function (x: number, y: number, opponent: Player) {
+      if (this.isHuman) {
+        opponent.gameboard.receiveAttack(x, y);
+      }
+    },
+
+    makeComputerMove: function (opponent: Player) {
       if (!this.isHuman) {
         let validMove = false;
+        let x: number = 0;
+        let y: number = 0;
         while (!validMove) {
           x = Math.floor(Math.random() * opponent.gameboard.size);
           y = Math.floor(Math.random() * opponent.gameboard.size);
@@ -31,8 +40,8 @@ export function createPlayer(isHuman: boolean): Player {
             validMove = true;
           }
         }
+        opponent.gameboard.receiveAttack(x, y);
       }
-      opponent.gameboard.receiveAttack(x, y);
     },
     toggleTurn: function () {
       this.isMyTurn = !this.isMyTurn;
