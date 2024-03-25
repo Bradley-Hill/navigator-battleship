@@ -6,6 +6,7 @@ export interface Gameloop {
   humanPlayer: Player;
   compPlayer: Player;
   manageTurns: () => void;
+  checkEndOfGame: () => void;
 }
 
 export function createGameLoop(): Gameloop {
@@ -26,11 +27,12 @@ export function createGameLoop(): Gameloop {
     manageTurns: function () {
       this.humanPlayer.toggleTurn();
       this.compPlayer.toggleTurn();
-
+    },
+    checkEndOfGame: function () {
       if (this.compPlayer.gameboard.allShipsSunk()) {
-        console.log("Congratulations! You've won!");
+        console.log("Congratulations! You have won!");
       } else if (this.humanPlayer.gameboard.allShipsSunk()) {
-        console.log("Sorry, You've lost the game...");
+        console.log("Game Over, you lost...");
       }
     },
   };
