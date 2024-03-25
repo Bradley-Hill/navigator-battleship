@@ -6,6 +6,7 @@ export interface Player {
   name: "Player 1" | "Player 2";
   isMyTurn: boolean;
   makeMove: (x: number, y: number, opponent: Player) => void;
+  toggleTurn: () => void;
 }
 
 export function createPlayer(isHuman: boolean): Player {
@@ -32,6 +33,9 @@ export function createPlayer(isHuman: boolean): Player {
         }
       }
       opponent.gameboard.receiveAttack(x, y);
+    },
+    toggleTurn: function () {
+      this.isMyTurn = !this.isMyTurn;
     },
   };
 }

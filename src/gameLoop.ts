@@ -24,8 +24,8 @@ export function createGameLoop(): Gameloop {
       this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
     },
     manageTurns: function () {
-      this.humanPlayer.isMyTurn = this.humanPlayer.isMyTurn ? false : true;
-      this.compPlayer.isMyTurn = this.compPlayer.isMyTurn ? false : true;
+      this.humanPlayer.toggleTurn();
+      this.compPlayer.toggleTurn();
     },
   };
   return gameLoop;
