@@ -42,3 +42,22 @@ test("Expect the gameLoop to manage turn alternating between players", () => {
   expect(gameLoop.humanPlayer.isMyTurn).toBe(true);
   expect(gameLoop.compPlayer.isMyTurn).toBe(false);
 });
+
+test("Expect checkEndOfGame to correctly set gameOver to true", () => {
+  const gameLoop = createGameLoop();
+  gameLoop.startGame();
+
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      gameLoop.humanPlayer.gameboard.receiveAttack(i, j);
+    }
+  }
+
+  gameLoop.checkEndOfGame();
+  expect(gameLoop.gameOver).toBe(true);
+});
+
+test("Expect gameOver to be false after createGameLoop is called", () => {
+  const gameLoop = createGameLoop();
+  expect(gameLoop.gameOver).toBe(false);
+});
