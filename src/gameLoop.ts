@@ -26,6 +26,12 @@ export function createGameLoop(): Gameloop {
     manageTurns: function () {
       this.humanPlayer.toggleTurn();
       this.compPlayer.toggleTurn();
+
+      if (this.compPlayer.gameboard.allShipsSunk()) {
+        console.log("Congratulations! You've won!");
+      } else if (this.humanPlayer.gameboard.allShipsSunk()) {
+        console.log("Sorry, You've lost the game...");
+      }
     },
   };
   return gameLoop;
