@@ -19,6 +19,11 @@ body {
 .opponentBoard,
 .playersBoard {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  grid-template-columns: repeat(var(--num), minmax(20px, 1fr));
+  grid-template-rows: repeat(var(--num), minmax(20px, 1fr));
   gap: 10px;
+}
+
+.cell {
+  border: 1px solid black;
 }

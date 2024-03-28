@@ -6,20 +6,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const opponentBoard = document.querySelector(".opponentBoard");
   const playersBoard = document.querySelector(".playersBoard");
 
+  const gameLoop = createGameLoop();
+
+  if (opponentBoard instanceof HTMLElement) {
+    createGrid(gameLoop.humanPlayer.gameboard, opponentBoard);
+  } else {
+    console.error("Opponent board not found");
+  }
+  if (playersBoard instanceof HTMLElement) {
+    createGrid(gameLoop.humanPlayer.gameboard, playersBoard);
+  } else {
+    console.error("Players board not found");
+  }
+
   if (startGameBtn) {
     startGameBtn.addEventListener("click", () => {
-      const gameLoop = createGameLoop();
       gameLoop.startGame();
-      if (opponentBoard instanceof HTMLElement) {
-        createGrid(gameLoop.humanPlayer.gameboard, opponentBoard);
-      } else {
-        console.error("Opponent board not found");
-      }
-      if (playersBoard instanceof HTMLElement) {
-        createGrid(gameLoop.humanPlayer.gameboard, playersBoard);
-      } else {
-        console.error("Players board not found");
-      }
     });
   } else {
     console.error("Start Game button not found");

@@ -32,11 +32,11 @@ export function createGameLoop(): Gameloop {
     },
     manageTurns: function () {
       if (this.humanPlayer.isMyTurn) {
-        this.humanPlayer.makeHumanMove(
-          0,
-          0,
-          /* Take co-ordinates from DOM manipulation */ this.compPlayer
-        );
+        // this.humanPlayer.makeHumanMove(
+        //   0,
+        //   0,
+        //   /* Take co-ordinates from DOM manipulation */ this.compPlayer
+        // );
       } else {
         this.compPlayer.makeComputerMove(this.humanPlayer);
       }
