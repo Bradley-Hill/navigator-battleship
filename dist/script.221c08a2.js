@@ -245,11 +245,9 @@ function createPlayer(isHuman) {
       if (y === void 0) {
         y = 0;
       }
-      if (this.isHuman) {
-        console.log(x);
-        console.log(y);
-        opponent.gameboard.receiveAttack(x, y);
-      }
+      console.log(x);
+      console.log(y);
+      opponent.gameboard.receiveAttack(x, y);
     },
     makeComputerMove: function makeComputerMove(opponent) {
       if (!this.isHuman) {
@@ -271,6 +269,7 @@ function createPlayer(isHuman) {
         }
         opponent.gameboard.receiveAttack(x_1, y_1);
       }
+      console.log("Computer made a move");
     },
     toggleTurn: function toggleTurn() {
       this.isMyTurn = !this.isMyTurn;
@@ -303,6 +302,7 @@ function createGameLoop() {
       this.manageTurns();
     },
     manageTurns: function manageTurns(x, y) {
+      var _this = this;
       if (this.gameOver) {
         return;
       }
@@ -310,9 +310,15 @@ function createGameLoop() {
         console.log("Human players Turn");
         if (x !== undefined && y !== undefined) {
           this.humanPlayer.makeHumanMove(x, y, this.compPlayer);
+          this.checkEndOfGame();
+          if (!this.gameOver) {
+            this.humanPlayer.toggleTurn();
+            this.compPlayer.toggleTurn();
+            setTimeout(function () {
+              return _this.manageTurns();
+            }, 200);
+          }
         }
-        this.humanPlayer.toggleTurn();
-        this.compPlayer.toggleTurn();
       } else {
         console.log("Computers players turn");
         this.compPlayer.makeComputerMove(this.humanPlayer);

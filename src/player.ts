@@ -17,11 +17,9 @@ export function createPlayer(isHuman: boolean): Player {
     name: isHuman ? "Player 1" : "Player 2",
     isMyTurn: isHuman,
     makeHumanMove: function (x: number = 0, y: number = 0, opponent: Player) {
-      if (this.isHuman) {
-        console.log(x);
-        console.log(y);
-        opponent.gameboard.receiveAttack(x, y);
-      }
+      console.log(x);
+      console.log(y);
+      opponent.gameboard.receiveAttack(x, y);
     },
 
     makeComputerMove: function (opponent: Player) {
@@ -44,6 +42,7 @@ export function createPlayer(isHuman: boolean): Player {
         }
         opponent.gameboard.receiveAttack(x, y);
       }
+      console.log("Computer made a move");
     },
     toggleTurn: function () {
       this.isMyTurn = !this.isMyTurn;

@@ -34,9 +34,13 @@ export function createGameLoop(): Gameloop {
         console.log("Human players Turn");
         if (x !== undefined && y !== undefined) {
           this.humanPlayer.makeHumanMove(x, y, this.compPlayer);
+          this.checkEndOfGame();
+          if (!this.gameOver) {
+            this.humanPlayer.toggleTurn();
+            this.compPlayer.toggleTurn();
+            setTimeout(() => this.manageTurns(), 200);
+          }
         }
-        this.humanPlayer.toggleTurn();
-        this.compPlayer.toggleTurn();
       } else {
         console.log("Computers players turn");
         this.compPlayer.makeComputerMove(this.humanPlayer);
