@@ -298,20 +298,23 @@ function createGameLoop() {
       this.compPlayer.gameboard.createShips(0, 0, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 1, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
-      while (!this.gameOver) {
-        this.manageTurns();
-        this.checkEndOfGame();
-      }
+      this.manageTurns();
     },
     manageTurns: function manageTurns() {
       if (this.humanPlayer.isMyTurn) {
+        console.log("It's the humans turn");
         // this.humanPlayer.makeHumanMove(
         //   0,
         //   0,
         //   /* Take co-ordinates from DOM manipulation */ this.compPlayer
         // );
       } else {
+        console.log("Its teh computers turn.");
         this.compPlayer.makeComputerMove(this.humanPlayer);
+        this.humanPlayer.toggleTurn();
+        this.compPlayer.toggleTurn();
+        this.checkEndOfGame();
+        this.manageTurns();
       }
       this.humanPlayer.toggleTurn();
       this.compPlayer.toggleTurn();
@@ -359,6 +362,24 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     console.error("Start Game button not found");
   }
+  document.querySelectorAll(".cell").forEach(function (cell) {
+    cell.addEventListener("click", function (event) {
+      var target = event.target;
+      if (target.dataset.x && target.dataset.y) {
+        var x = parseInt(target.dataset.x, 10);
+        var y = parseInt(target.dataset.y, 10);
+        gameLoop.humanPlayer.makeHumanMove(x, y, gameLoop.compPlayer);
+        gameLoop.humanPlayer.toggleTurn();
+        gameLoop.compPlayer.toggleTurn();
+        gameLoop.checkEndOfGame();
+        if (!gameLoop.gameOver) {
+          gameLoop.manageTurns();
+        }
+      } else {
+        console.error("Data attributes x and y are not set");
+      }
+    });
+  });
   function createGrid(gameboard, htmlGrid) {
     htmlGrid.innerHTML = "";
     htmlGrid.style.gridTemplateColumns = "repeat(".concat(gameboard.size, ", 1fr)");
@@ -369,6 +390,8 @@ document.addEventListener("DOMContentLoaded", function () {
       for (var j = 0; j < gameboard.size; j++) {
         var cell = document.createElement("div");
         cell.classList.add("cell");
+        cell.dataset.x = i.toString();
+        cell.dataset.y = j.toString();
         htmlGrid.appendChild(cell);
       }
     }
@@ -399,7 +422,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54459" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37073" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

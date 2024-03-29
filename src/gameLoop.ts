@@ -24,21 +24,23 @@ export function createGameLoop(): Gameloop {
       this.compPlayer.gameboard.createShips(0, 0, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 1, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
-
-      while (!this.gameOver) {
-        this.manageTurns();
-        this.checkEndOfGame();
-      }
+      this.manageTurns();
     },
     manageTurns: function () {
       if (this.humanPlayer.isMyTurn) {
+        console.log("It's the humans turn");
         // this.humanPlayer.makeHumanMove(
         //   0,
         //   0,
         //   /* Take co-ordinates from DOM manipulation */ this.compPlayer
         // );
       } else {
+        console.log("Its teh computers turn.");
         this.compPlayer.makeComputerMove(this.humanPlayer);
+        this.humanPlayer.toggleTurn();
+        this.compPlayer.toggleTurn();
+        this.checkEndOfGame();
+        this.manageTurns();
       }
 
       this.humanPlayer.toggleTurn();

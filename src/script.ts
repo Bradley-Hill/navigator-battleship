@@ -27,6 +27,25 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Start Game button not found");
   }
 
+  document.querySelectorAll(".cell").forEach((cell) => {
+    cell.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      if (target.dataset.x && target.dataset.y) {
+        const x = parseInt(target.dataset.x, 10);
+        const y = parseInt(target.dataset.y, 10);
+        gameLoop.humanPlayer.makeHumanMove(x, y, gameLoop.compPlayer);
+        gameLoop.humanPlayer.toggleTurn();
+        gameLoop.compPlayer.toggleTurn();
+        gameLoop.checkEndOfGame();
+        if (!gameLoop.gameOver) {
+          gameLoop.manageTurns();
+        }
+      } else {
+        console.error("Data attributes x and y are not set");
+      }
+    });
+  });
+
   function createGrid(gameboard: Gameboard, htmlGrid: HTMLElement) {
     htmlGrid.innerHTML = "";
     htmlGrid.style.gridTemplateColumns = `repeat(${gameboard.size}, 1fr)`;
@@ -37,6 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
       for (let j = 0; j < gameboard.size; j++) {
         const cell = document.createElement("div");
         cell.classList.add("cell");
+        cell.dataset.x = i.toString();
+        cell.dataset.y = j.toString();
         htmlGrid.appendChild(cell);
       }
     }
