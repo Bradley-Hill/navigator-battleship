@@ -37,8 +37,77 @@ document.addEventListener("DOMContentLoaded", () => {
       for (let j = 0; j < gameboard.size; j++) {
         const cell = document.createElement("div");
         cell.classList.add("cell");
+        cell.dataset.x = i.toString();
+        cell.dataset.y = j.toString();
         htmlGrid.appendChild(cell);
       }
     }
   }
+
+  function updateMoveLists() {
+    const humanMissedAttacksElement =
+      document.getElementById("humanMissedAttacks");
+    const computerMissedAttacksElement = document.getElementById(
+      "computerMissedAttacks"
+    );
+    const humanHitCellsElement = document.getElementById("humanHitCells");
+    const computerHitCellsElement = document.getElementById("computerHitCells");
+
+    if (humanMissedAttacksElement) {
+      humanMissedAttacksElement.textContent =
+        gameLoop.humanPlayer.gameboard.missedAttacks
+          .map((move) => `(${move[0]}, ${move[1]})`)
+          .join(", ");
+    }
+    if (computerMissedAttacksElement) {
+      computerMissedAttacksElement.textContent =
+        gameLoop.compPlayer.gameboard.missedAttacks
+          .map((move) => `(${move[0]}, ${move[1]})`)
+          .join(", ");
+    }
+
+    if (humanHitCellsElement) {
+      humanHitCellsElement.textContent = gameLoop.humanPlayer.gameboard
+        .getHitCells()
+        .map((move) => `(${move[0]}, ${move[1]})`)
+        .join(", ");
+    }
+    if (computerHitCellsElement) {
+      computerHitCellsElement.textContent = gameLoop.compPlayer.gameboard
+        .getHitCells()
+        .map((move) => `(${move[0]}, ${move[1]})`)
+        .join(", ");
+    }
+
+    gameLoop.humanPlayer.gameboard.missedAttacks.forEach((move) => {
+      const cell = document.querySelector(
+        `.opponentBoard .cell[data-x='${move[0]}'][data-y='${move[1]}']`
+      );
+      if (cell) {
+        cell.classList.add("missedAttacks");
+      }
+    });
+
+    gameLoop.compPlayer.gameboard.missedAttacks.forEach((move) => {
+      const cell = document.querySelector(
+        `.playersBoard .cell[data-x='${move[0]}'][data-y='${move[1]}']`
+      );
+      if (cell) {
+        cell.classList.add("missedAttacks");
+      }
+    });
+  }
+  document.querySelectorAll(".cell").forEach((cell) => {
+    cell.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      if (target.dataset.x && target.dataset.y) {
+        const x = parseInt(target.dataset.x, 10);
+        const y = parseInt(target.dataset.y, 10);
+        gameLoop.manageTurns(x, y);
+        updateMoveLists();
+      } else {
+        console.error("Data attributes x and y are not set");
+      }
+    });
+  });
 });

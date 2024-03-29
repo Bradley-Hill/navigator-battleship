@@ -245,9 +245,9 @@ function createPlayer(isHuman) {
       if (y === void 0) {
         y = 0;
       }
-      if (this.isHuman) {
-        opponent.gameboard.receiveAttack(x, y);
-      }
+      console.log(x);
+      console.log(y);
+      opponent.gameboard.receiveAttack(x, y);
     },
     makeComputerMove: function makeComputerMove(opponent) {
       if (!this.isHuman) {
@@ -269,6 +269,7 @@ function createPlayer(isHuman) {
         }
         opponent.gameboard.receiveAttack(x_1, y_1);
       }
+      console.log("Computer made a move");
     },
     toggleTurn: function toggleTurn() {
       this.isMyTurn = !this.isMyTurn;
@@ -298,23 +299,35 @@ function createGameLoop() {
       this.compPlayer.gameboard.createShips(0, 0, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 1, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
-      while (!this.gameOver) {
-        this.manageTurns();
-        this.checkEndOfGame();
-      }
+      this.manageTurns();
     },
-    manageTurns: function manageTurns() {
-      if (this.humanPlayer.isMyTurn) {
-        // this.humanPlayer.makeHumanMove(
-        //   0,
-        //   0,
-        //   /* Take co-ordinates from DOM manipulation */ this.compPlayer
-        // );
-      } else {
-        this.compPlayer.makeComputerMove(this.humanPlayer);
+    manageTurns: function manageTurns(x, y) {
+      var _this = this;
+      if (this.gameOver) {
+        return;
       }
-      this.humanPlayer.toggleTurn();
-      this.compPlayer.toggleTurn();
+      if (this.humanPlayer.isMyTurn) {
+        console.log("Human players Turn");
+        if (x !== undefined && y !== undefined) {
+          this.humanPlayer.makeHumanMove(x, y, this.compPlayer);
+          this.checkEndOfGame();
+          if (!this.gameOver) {
+            this.humanPlayer.toggleTurn();
+            this.compPlayer.toggleTurn();
+            setTimeout(function () {
+              return _this.manageTurns();
+            }, 200);
+          }
+        }
+      } else {
+        console.log("Computers players turn");
+        this.compPlayer.makeComputerMove(this.humanPlayer);
+        this.checkEndOfGame();
+        if (!this.gameOver) {
+          this.humanPlayer.toggleTurn();
+          this.compPlayer.toggleTurn();
+        }
+      }
     },
     checkEndOfGame: function checkEndOfGame() {
       if (this.compPlayer.gameboard.allShipsSunk()) {
@@ -369,10 +382,63 @@ document.addEventListener("DOMContentLoaded", function () {
       for (var j = 0; j < gameboard.size; j++) {
         var cell = document.createElement("div");
         cell.classList.add("cell");
+        cell.dataset.x = i.toString();
+        cell.dataset.y = j.toString();
         htmlGrid.appendChild(cell);
       }
     }
   }
+  function updateMoveLists() {
+    var humanMissedAttacksElement = document.getElementById("humanMissedAttacks");
+    var computerMissedAttacksElement = document.getElementById("computerMissedAttacks");
+    var humanHitCellsElement = document.getElementById("humanHitCells");
+    var computerHitCellsElement = document.getElementById("computerHitCells");
+    if (humanMissedAttacksElement) {
+      humanMissedAttacksElement.textContent = gameLoop.humanPlayer.gameboard.missedAttacks.map(function (move) {
+        return "(".concat(move[0], ", ").concat(move[1], ")");
+      }).join(", ");
+    }
+    if (computerMissedAttacksElement) {
+      computerMissedAttacksElement.textContent = gameLoop.compPlayer.gameboard.missedAttacks.map(function (move) {
+        return "(".concat(move[0], ", ").concat(move[1], ")");
+      }).join(", ");
+    }
+    if (humanHitCellsElement) {
+      humanHitCellsElement.textContent = gameLoop.humanPlayer.gameboard.getHitCells().map(function (move) {
+        return "(".concat(move[0], ", ").concat(move[1], ")");
+      }).join(", ");
+    }
+    if (computerHitCellsElement) {
+      computerHitCellsElement.textContent = gameLoop.compPlayer.gameboard.getHitCells().map(function (move) {
+        return "(".concat(move[0], ", ").concat(move[1], ")");
+      }).join(", ");
+    }
+    gameLoop.humanPlayer.gameboard.missedAttacks.forEach(function (move) {
+      var cell = document.querySelector(".opponentBoard .cell[data-x='".concat(move[0], "'][data-y='").concat(move[1], "']"));
+      if (cell) {
+        cell.classList.add("missedAttacks");
+      }
+    });
+    gameLoop.compPlayer.gameboard.missedAttacks.forEach(function (move) {
+      var cell = document.querySelector(".playersBoard .cell[data-x='".concat(move[0], "'][data-y='").concat(move[1], "']"));
+      if (cell) {
+        cell.classList.add("missedAttacks");
+      }
+    });
+  }
+  document.querySelectorAll(".cell").forEach(function (cell) {
+    cell.addEventListener("click", function (event) {
+      var target = event.target;
+      if (target.dataset.x && target.dataset.y) {
+        var x = parseInt(target.dataset.x, 10);
+        var y = parseInt(target.dataset.y, 10);
+        gameLoop.manageTurns(x, y);
+        updateMoveLists();
+      } else {
+        console.error("Data attributes x and y are not set");
+      }
+    });
+  });
 });
 },{"../src/gameLoop":"gameLoop.ts"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -399,7 +465,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54459" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37073" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

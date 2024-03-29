@@ -17,10 +17,13 @@ body {
   margin: 0 auto;
   padding: 20px;
 }
-
+.title {
+  display: flex;
+  justify-content: center;
+}
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .buttonContainer {
@@ -71,4 +74,13 @@ body {
 
 .cell:hover {
   background-color: red;
+}
+
+.missedAttacks {
+  background-color: red;
+}
+
+.gameInfoContainer {
+  display: flex;
+  justify-content: space-around;
 }

@@ -5,7 +5,7 @@ export interface Gameloop {
   startGame: () => void;
   humanPlayer: Player;
   compPlayer: Player;
-  manageTurns: () => void;
+  manageTurns: (x?: number, y?: number) => void;
   checkEndOfGame: () => void;
   gameOver: boolean;
 }
@@ -24,25 +24,32 @@ export function createGameLoop(): Gameloop {
       this.compPlayer.gameboard.createShips(0, 0, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 1, 1, "horizontal");
       this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
-
-      while (!this.gameOver) {
-        this.manageTurns();
-        this.checkEndOfGame();
-      }
+      this.manageTurns();
     },
-    manageTurns: function () {
-      if (this.humanPlayer.isMyTurn) {
-        // this.humanPlayer.makeHumanMove(
-        //   0,
-        //   0,
-        //   /* Take co-ordinates from DOM manipulation */ this.compPlayer
-        // );
-      } else {
-        this.compPlayer.makeComputerMove(this.humanPlayer);
+    manageTurns: function (x?: number, y?: number) {
+      if (this.gameOver) {
+        return;
       }
-
-      this.humanPlayer.toggleTurn();
-      this.compPlayer.toggleTurn();
+      if (this.humanPlayer.isMyTurn) {
+        console.log("Human players Turn");
+        if (x !== undefined && y !== undefined) {
+          this.humanPlayer.makeHumanMove(x, y, this.compPlayer);
+          this.checkEndOfGame();
+          if (!this.gameOver) {
+            this.humanPlayer.toggleTurn();
+            this.compPlayer.toggleTurn();
+            setTimeout(() => this.manageTurns(), 200);
+          }
+        }
+      } else {
+        console.log("Computers players turn");
+        this.compPlayer.makeComputerMove(this.humanPlayer);
+        this.checkEndOfGame();
+        if (!this.gameOver) {
+          this.humanPlayer.toggleTurn();
+          this.compPlayer.toggleTurn();
+        }
+      }
     },
     checkEndOfGame: function () {
       if (this.compPlayer.gameboard.allShipsSunk()) {
