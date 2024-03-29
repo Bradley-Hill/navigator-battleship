@@ -8,8 +8,10 @@
   </head>
   <body>
     <div class="container">
-      <div class="header">
+      <div class="title">
         <h1>Bradleys Battleships</h1>
+      </div>
+      <div class="header">
         <h2>Player 1</h2>
         <h2>Player 2</h2>
       </div>
@@ -25,6 +27,22 @@
     <script src="script.ts"></script>
     <div class="buttonContainer">
       <button type="button" id="startBtn" onclick="">Start Game!</button>
+    </div>
+    <div class="gameInfoContainer">
+      <div>
+        <h2>Human Player</h2>
+        <h3>Missed Attacks:</h3>
+        <p id="humanMissedAttacks"></p>
+        <h3>Hit Cells:</h3>
+        <p id="humanHitCells"></p>
+      </div>
+      <div>
+        <h2>Computer Player</h2>
+        <h3>Missed Attacks:</h3>
+        <p id="computerMissedAttacks"></p>
+        <h3>Hit Cells:</h3>
+        <p id="computerHitCells"></p>
+      </div>
     </div>
   </body>
 </html>

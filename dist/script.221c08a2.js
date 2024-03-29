@@ -379,6 +379,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var x = parseInt(target.dataset.x, 10);
         var y = parseInt(target.dataset.y, 10);
         gameLoop.manageTurns(x, y);
+        updateMoveLists();
       } else {
         console.error("Data attributes x and y are not set");
       }
@@ -398,6 +399,32 @@ document.addEventListener("DOMContentLoaded", function () {
         cell.dataset.y = j.toString();
         htmlGrid.appendChild(cell);
       }
+    }
+  }
+  function updateMoveLists() {
+    var humanMissedAttacksElement = document.getElementById("humanMissedAttacks");
+    var computerMissedAttacksElement = document.getElementById("computerMissedAttacks");
+    var humanHitCellsElement = document.getElementById("humanHitCells");
+    var computerHitCellsElement = document.getElementById("computerHitCells");
+    if (humanMissedAttacksElement) {
+      humanMissedAttacksElement.textContent = gameLoop.humanPlayer.gameboard.missedAttacks.map(function (move) {
+        return "(".concat(move[0], ", ").concat(move[1], ")");
+      }).join(", ");
+    }
+    if (computerMissedAttacksElement) {
+      computerMissedAttacksElement.textContent = gameLoop.compPlayer.gameboard.missedAttacks.map(function (move) {
+        return "(".concat(move[0], ", ").concat(move[1], ")");
+      }).join(", ");
+    }
+    if (humanHitCellsElement) {
+      humanHitCellsElement.textContent = gameLoop.humanPlayer.gameboard.getHitCells().map(function (move) {
+        return "(".concat(move[0], ", ").concat(move[1], ")");
+      }).join(", ");
+    }
+    if (computerHitCellsElement) {
+      computerHitCellsElement.textContent = gameLoop.compPlayer.gameboard.getHitCells().map(function (move) {
+        return "(".concat(move[0], ", ").concat(move[1], ")");
+      }).join(", ");
     }
   }
 });

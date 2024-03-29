@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const x = parseInt(target.dataset.x, 10);
         const y = parseInt(target.dataset.y, 10);
         gameLoop.manageTurns(x, y);
+        updateMoveLists();
       } else {
         console.error("Data attributes x and y are not set");
       }
@@ -54,6 +55,42 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.dataset.y = j.toString();
         htmlGrid.appendChild(cell);
       }
+    }
+  }
+
+  function updateMoveLists() {
+    const humanMissedAttacksElement =
+      document.getElementById("humanMissedAttacks");
+    const computerMissedAttacksElement = document.getElementById(
+      "computerMissedAttacks"
+    );
+    const humanHitCellsElement = document.getElementById("humanHitCells");
+    const computerHitCellsElement = document.getElementById("computerHitCells");
+
+    if (humanMissedAttacksElement) {
+      humanMissedAttacksElement.textContent =
+        gameLoop.humanPlayer.gameboard.missedAttacks
+          .map((move) => `(${move[0]}, ${move[1]})`)
+          .join(", ");
+    }
+    if (computerMissedAttacksElement) {
+      computerMissedAttacksElement.textContent =
+        gameLoop.compPlayer.gameboard.missedAttacks
+          .map((move) => `(${move[0]}, ${move[1]})`)
+          .join(", ");
+    }
+
+    if (humanHitCellsElement) {
+      humanHitCellsElement.textContent = gameLoop.humanPlayer.gameboard
+        .getHitCells()
+        .map((move) => `(${move[0]}, ${move[1]})`)
+        .join(", ");
+    }
+    if (computerHitCellsElement) {
+      computerHitCellsElement.textContent = gameLoop.compPlayer.gameboard
+        .getHitCells()
+        .map((move) => `(${move[0]}, ${move[1]})`)
+        .join(", ");
     }
   }
 });
