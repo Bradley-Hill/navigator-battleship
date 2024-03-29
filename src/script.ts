@@ -33,13 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (target.dataset.x && target.dataset.y) {
         const x = parseInt(target.dataset.x, 10);
         const y = parseInt(target.dataset.y, 10);
-        gameLoop.humanPlayer.makeHumanMove(x, y, gameLoop.compPlayer);
-        gameLoop.humanPlayer.toggleTurn();
-        gameLoop.compPlayer.toggleTurn();
-        gameLoop.checkEndOfGame();
-        if (!gameLoop.gameOver) {
-          gameLoop.manageTurns();
-        }
+        gameLoop.manageTurns(x, y);
       } else {
         console.error("Data attributes x and y are not set");
       }

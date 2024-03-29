@@ -246,6 +246,8 @@ function createPlayer(isHuman) {
         y = 0;
       }
       if (this.isHuman) {
+        console.log(x);
+        console.log(y);
         opponent.gameboard.receiveAttack(x, y);
       }
     },
@@ -300,24 +302,26 @@ function createGameLoop() {
       this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
       this.manageTurns();
     },
-    manageTurns: function manageTurns() {
+    manageTurns: function manageTurns(x, y) {
+      if (this.gameOver) {
+        return;
+      }
       if (this.humanPlayer.isMyTurn) {
-        console.log("It's the humans turn");
-        // this.humanPlayer.makeHumanMove(
-        //   0,
-        //   0,
-        //   /* Take co-ordinates from DOM manipulation */ this.compPlayer
-        // );
-      } else {
-        console.log("Its teh computers turn.");
-        this.compPlayer.makeComputerMove(this.humanPlayer);
+        console.log("Human players Turn");
+        if (x !== undefined && y !== undefined) {
+          this.humanPlayer.makeHumanMove(x, y, this.compPlayer);
+        }
         this.humanPlayer.toggleTurn();
         this.compPlayer.toggleTurn();
+      } else {
+        console.log("Computers players turn");
+        this.compPlayer.makeComputerMove(this.humanPlayer);
         this.checkEndOfGame();
-        this.manageTurns();
+        if (!this.gameOver) {
+          this.humanPlayer.toggleTurn();
+          this.compPlayer.toggleTurn();
+        }
       }
-      this.humanPlayer.toggleTurn();
-      this.compPlayer.toggleTurn();
     },
     checkEndOfGame: function checkEndOfGame() {
       if (this.compPlayer.gameboard.allShipsSunk()) {
@@ -368,13 +372,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (target.dataset.x && target.dataset.y) {
         var x = parseInt(target.dataset.x, 10);
         var y = parseInt(target.dataset.y, 10);
-        gameLoop.humanPlayer.makeHumanMove(x, y, gameLoop.compPlayer);
-        gameLoop.humanPlayer.toggleTurn();
-        gameLoop.compPlayer.toggleTurn();
-        gameLoop.checkEndOfGame();
-        if (!gameLoop.gameOver) {
-          gameLoop.manageTurns();
-        }
+        gameLoop.manageTurns(x, y);
       } else {
         console.error("Data attributes x and y are not set");
       }

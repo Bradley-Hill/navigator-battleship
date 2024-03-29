@@ -18,6 +18,8 @@ export function createPlayer(isHuman: boolean): Player {
     isMyTurn: isHuman,
     makeHumanMove: function (x: number = 0, y: number = 0, opponent: Player) {
       if (this.isHuman) {
+        console.log(x);
+        console.log(y);
         opponent.gameboard.receiveAttack(x, y);
       }
     },
