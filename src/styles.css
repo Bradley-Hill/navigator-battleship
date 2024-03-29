@@ -76,6 +76,10 @@ body {
   background-color: red;
 }
 
+.missedAttacks {
+  background-color: red;
+}
+
 .gameInfoContainer {
   display: flex;
   justify-content: space-around;

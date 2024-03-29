@@ -372,19 +372,6 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     console.error("Start Game button not found");
   }
-  document.querySelectorAll(".cell").forEach(function (cell) {
-    cell.addEventListener("click", function (event) {
-      var target = event.target;
-      if (target.dataset.x && target.dataset.y) {
-        var x = parseInt(target.dataset.x, 10);
-        var y = parseInt(target.dataset.y, 10);
-        gameLoop.manageTurns(x, y);
-        updateMoveLists();
-      } else {
-        console.error("Data attributes x and y are not set");
-      }
-    });
-  });
   function createGrid(gameboard, htmlGrid) {
     htmlGrid.innerHTML = "";
     htmlGrid.style.gridTemplateColumns = "repeat(".concat(gameboard.size, ", 1fr)");
@@ -426,7 +413,32 @@ document.addEventListener("DOMContentLoaded", function () {
         return "(".concat(move[0], ", ").concat(move[1], ")");
       }).join(", ");
     }
+    gameLoop.humanPlayer.gameboard.missedAttacks.forEach(function (move) {
+      var cell = document.querySelector(".opponentBoard .cell[data-x='".concat(move[0], "'][data-y='").concat(move[1], "']"));
+      if (cell) {
+        cell.classList.add("missedAttacks");
+      }
+    });
+    gameLoop.compPlayer.gameboard.missedAttacks.forEach(function (move) {
+      var cell = document.querySelector(".playersBoard .cell[data-x='".concat(move[0], "'][data-y='").concat(move[1], "']"));
+      if (cell) {
+        cell.classList.add("missedAttacks");
+      }
+    });
   }
+  document.querySelectorAll(".cell").forEach(function (cell) {
+    cell.addEventListener("click", function (event) {
+      var target = event.target;
+      if (target.dataset.x && target.dataset.y) {
+        var x = parseInt(target.dataset.x, 10);
+        var y = parseInt(target.dataset.y, 10);
+        gameLoop.manageTurns(x, y);
+        updateMoveLists();
+      } else {
+        console.error("Data attributes x and y are not set");
+      }
+    });
+  });
 });
 },{"../src/gameLoop":"gameLoop.ts"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
