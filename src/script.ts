@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  document.querySelectorAll(".cell").forEach((cell) => {
+  document.querySelectorAll(".playersBoard .cell").forEach((cell) => {
     cell.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
       if (target.dataset.x && target.dataset.y) {

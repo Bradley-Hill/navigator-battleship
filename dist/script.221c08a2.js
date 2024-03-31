@@ -438,7 +438,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-  document.querySelectorAll(".cell").forEach(function (cell) {
+  document.querySelectorAll(".playersBoard .cell").forEach(function (cell) {
     cell.addEventListener("click", function (event) {
       var target = event.target;
       if (target.dataset.x && target.dataset.y) {
