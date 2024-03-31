@@ -130,22 +130,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateCellClasses(
       "opponentBoard",
-      gameLoop.humanPlayer.gameboard.missedAttacks,
-      "missedAttacks"
-    );
-    updateCellClasses(
-      "playersBoard",
       gameLoop.compPlayer.gameboard.missedAttacks,
       "missedAttacks"
     );
     updateCellClasses(
+      "playersBoard",
+      gameLoop.humanPlayer.gameboard.missedAttacks,
+      "missedAttacks"
+    );
+    updateCellClasses(
       "opponentBoard",
-      gameLoop.humanPlayer.gameboard.getHitCells(),
+      gameLoop.compPlayer.gameboard.getHitCells(),
       "hits"
     );
     updateCellClasses(
       "playersBoard",
-      gameLoop.compPlayer.gameboard.getHitCells(),
+      gameLoop.humanPlayer.gameboard.getHitCells(),
       "hits"
     );
   }

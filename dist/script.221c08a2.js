@@ -440,10 +440,10 @@ document.addEventListener("DOMContentLoaded", function () {
     updateElementTextContent("computerMissedAttacks", gameLoop.compPlayer.gameboard.missedAttacks);
     updateElementTextContent("humanHitCells", gameLoop.humanPlayer.gameboard.getHitCells());
     updateElementTextContent("computerHitCells", gameLoop.compPlayer.gameboard.getHitCells());
-    updateCellClasses("opponentBoard", gameLoop.humanPlayer.gameboard.missedAttacks, "missedAttacks");
-    updateCellClasses("playersBoard", gameLoop.compPlayer.gameboard.missedAttacks, "missedAttacks");
-    updateCellClasses("opponentBoard", gameLoop.humanPlayer.gameboard.getHitCells(), "hits");
-    updateCellClasses("playersBoard", gameLoop.compPlayer.gameboard.getHitCells(), "hits");
+    updateCellClasses("opponentBoard", gameLoop.compPlayer.gameboard.missedAttacks, "missedAttacks");
+    updateCellClasses("playersBoard", gameLoop.humanPlayer.gameboard.missedAttacks, "missedAttacks");
+    updateCellClasses("opponentBoard", gameLoop.compPlayer.gameboard.getHitCells(), "hits");
+    updateCellClasses("playersBoard", gameLoop.humanPlayer.gameboard.getHitCells(), "hits");
   }
 });
 },{"../src/gameLoop":"gameLoop.ts"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
