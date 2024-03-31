@@ -83,6 +83,10 @@ h3 {
   background-color: red;
 }
 
+.ship {
+  background-color: green;
+}
+
 .missedAttacks {
   background-color: darkslategray;
 }

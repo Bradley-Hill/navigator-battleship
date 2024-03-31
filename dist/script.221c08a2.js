@@ -356,23 +356,26 @@ document.addEventListener("DOMContentLoaded", function () {
   var playersBoard = document.querySelector(".playersBoard");
   var gameLoop = (0, gameLoop_1.createGameLoop)();
   if (opponentBoard instanceof HTMLElement) {
-    createGrid(gameLoop.humanPlayer.gameboard, opponentBoard);
+    createGrid(gameLoop.humanPlayer.gameboard, opponentBoard, "opponentBoard");
   } else {
     console.error("Opponent board not found");
   }
   if (playersBoard instanceof HTMLElement) {
-    createGrid(gameLoop.humanPlayer.gameboard, playersBoard);
+    createGrid(gameLoop.humanPlayer.gameboard, playersBoard, "playersBoard");
   } else {
     console.error("Players board not found");
   }
   if (startGameBtn) {
     startGameBtn.addEventListener("click", function () {
       gameLoop.startGame();
+      if (playersBoard instanceof HTMLElement) {
+        createGrid(gameLoop.humanPlayer.gameboard, playersBoard, "playersBoard");
+      }
     });
   } else {
     console.error("Start Game button not found");
   }
-  function createGrid(gameboard, htmlGrid) {
+  function createGrid(gameboard, htmlGrid, boardClass) {
     htmlGrid.innerHTML = "";
     htmlGrid.style.gridTemplateColumns = "repeat(".concat(gameboard.size, ", 1fr)");
     htmlGrid.style.gridTemplateRows = "repeat(".concat(gameboard.size, ", 1fr)");
@@ -384,73 +387,64 @@ document.addEventListener("DOMContentLoaded", function () {
         cell.classList.add("cell");
         cell.dataset.x = i.toString();
         cell.dataset.y = j.toString();
+        if (boardClass === "opponentBoard") {
+          cell.addEventListener("click", function (event) {
+            var target = event.target;
+            if (target.dataset.x && target.dataset.y) {
+              var x = parseInt(target.dataset.x, 10);
+              var y = parseInt(target.dataset.y, 10);
+              gameLoop.manageTurns(x, y);
+              updateMoveLists();
+            } else {
+              console.error("Data attributes x and y are not set");
+            }
+          });
+        }
         htmlGrid.appendChild(cell);
       }
     }
+    if (boardClass === "playersBoard") {
+      updateShipCells("playersBoard", gameLoop.humanPlayer.gameboard);
+    }
   }
-  function updateMoveLists() {
-    var humanMissedAttacksElement = document.getElementById("humanMissedAttacks");
-    var computerMissedAttacksElement = document.getElementById("computerMissedAttacks");
-    var humanHitCellsElement = document.getElementById("humanHitCells");
-    var computerHitCellsElement = document.getElementById("computerHitCells");
-    if (humanMissedAttacksElement) {
-      humanMissedAttacksElement.textContent = gameLoop.humanPlayer.gameboard.missedAttacks.map(function (move) {
+  function updateElementTextContent(elementId, moves) {
+    var element = document.getElementById(elementId);
+    if (element) {
+      element.textContent = moves.map(function (move) {
         return "(".concat(move[0], ", ").concat(move[1], ")");
       }).join(", ");
     }
-    if (computerMissedAttacksElement) {
-      computerMissedAttacksElement.textContent = gameLoop.compPlayer.gameboard.missedAttacks.map(function (move) {
-        return "(".concat(move[0], ", ").concat(move[1], ")");
-      }).join(", ");
-    }
-    if (humanHitCellsElement) {
-      humanHitCellsElement.textContent = gameLoop.humanPlayer.gameboard.getHitCells().map(function (move) {
-        return "(".concat(move[0], ", ").concat(move[1], ")");
-      }).join(", ");
-    }
-    if (computerHitCellsElement) {
-      computerHitCellsElement.textContent = gameLoop.compPlayer.gameboard.getHitCells().map(function (move) {
-        return "(".concat(move[0], ", ").concat(move[1], ")");
-      }).join(", ");
-    }
-    gameLoop.humanPlayer.gameboard.missedAttacks.forEach(function (move) {
-      var cell = document.querySelector(".opponentBoard .cell[data-x='".concat(move[0], "'][data-y='").concat(move[1], "']"));
-      if (cell) {
-        cell.classList.add("missedAttacks");
+  }
+  function updateShipCells(boardClass, gameboard) {
+    for (var x = 0; x < gameboard.size; x++) {
+      for (var y = 0; y < gameboard.size; y++) {
+        if (gameboard.grid[x][y].ship !== null) {
+          var cell = document.querySelector(".".concat(boardClass, " .cell[data-x=\"").concat(x, "\"][data-y=\"").concat(y, "\"]"));
+          if (cell) {
+            cell.classList.add("ship");
+          }
+        }
       }
-    });
-    gameLoop.compPlayer.gameboard.missedAttacks.forEach(function (move) {
-      var cell = document.querySelector(".playersBoard .cell[data-x='".concat(move[0], "'][data-y='").concat(move[1], "']"));
+    }
+  }
+  function updateCellClasses(boardClass, moves, className) {
+    moves.forEach(function (move) {
+      var cell = document.querySelector(".".concat(boardClass, " .cell[data-x='").concat(move[0], "'][data-y='").concat(move[1], "']"));
       if (cell) {
-        cell.classList.add("missedAttacks");
-      }
-    });
-    gameLoop.humanPlayer.gameboard.getHitCells().forEach(function (move) {
-      var cell = document.querySelector(".opponentBoard .cell[data-x=\"".concat(move[0], "\"][data-y=\"").concat(move[1], "\"]"));
-      if (cell) {
-        cell.classList.add("hits");
-      }
-    });
-    gameLoop.compPlayer.gameboard.getHitCells().forEach(function (move) {
-      var cell = document.querySelector(".playersBoard .cell[data-x=\"".concat(move[0], "\"][data-y=\"").concat(move[1], "\"]"));
-      if (cell) {
-        cell.classList.add("hits");
+        cell.classList.add(className);
       }
     });
   }
-  document.querySelectorAll(".playersBoard .cell").forEach(function (cell) {
-    cell.addEventListener("click", function (event) {
-      var target = event.target;
-      if (target.dataset.x && target.dataset.y) {
-        var x = parseInt(target.dataset.x, 10);
-        var y = parseInt(target.dataset.y, 10);
-        gameLoop.manageTurns(x, y);
-        updateMoveLists();
-      } else {
-        console.error("Data attributes x and y are not set");
-      }
-    });
-  });
+  function updateMoveLists() {
+    updateElementTextContent("humanMissedAttacks", gameLoop.humanPlayer.gameboard.missedAttacks);
+    updateElementTextContent("computerMissedAttacks", gameLoop.compPlayer.gameboard.missedAttacks);
+    updateElementTextContent("humanHitCells", gameLoop.humanPlayer.gameboard.getHitCells());
+    updateElementTextContent("computerHitCells", gameLoop.compPlayer.gameboard.getHitCells());
+    updateCellClasses("opponentBoard", gameLoop.humanPlayer.gameboard.missedAttacks, "missedAttacks");
+    updateCellClasses("playersBoard", gameLoop.compPlayer.gameboard.missedAttacks, "missedAttacks");
+    updateCellClasses("opponentBoard", gameLoop.humanPlayer.gameboard.getHitCells(), "hits");
+    updateCellClasses("playersBoard", gameLoop.compPlayer.gameboard.getHitCells(), "hits");
+  }
 });
 },{"../src/gameLoop":"gameLoop.ts"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
