@@ -96,6 +96,23 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.classList.add("missedAttacks");
       }
     });
+    gameLoop.humanPlayer.gameboard.getHitCells().forEach((move) => {
+      const cell = document.querySelector(
+        `.opponentBoard .cell[data-x="${move[0]}"][data-y="${move[1]}"]`
+      );
+      if (cell) {
+        cell.classList.add("hits");
+      }
+    });
+
+    gameLoop.compPlayer.gameboard.getHitCells().forEach((move) => {
+      const cell = document.querySelector(
+        `.playersBoard .cell[data-x="${move[0]}"][data-y="${move[1]}"]`
+      );
+      if (cell) {
+        cell.classList.add("hits");
+      }
+    });
   }
   document.querySelectorAll(".cell").forEach((cell) => {
     cell.addEventListener("click", (event) => {

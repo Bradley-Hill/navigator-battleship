@@ -425,6 +425,18 @@ document.addEventListener("DOMContentLoaded", function () {
         cell.classList.add("missedAttacks");
       }
     });
+    gameLoop.humanPlayer.gameboard.getHitCells().forEach(function (move) {
+      var cell = document.querySelector(".opponentBoard .cell[data-x=\"".concat(move[0], "\"][data-y=\"").concat(move[1], "\"]"));
+      if (cell) {
+        cell.classList.add("hits");
+      }
+    });
+    gameLoop.compPlayer.gameboard.getHitCells().forEach(function (move) {
+      var cell = document.querySelector(".playersBoard .cell[data-x=\"".concat(move[0], "\"][data-y=\"").concat(move[1], "\"]"));
+      if (cell) {
+        cell.classList.add("hits");
+      }
+    });
   }
   document.querySelectorAll(".cell").forEach(function (cell) {
     cell.addEventListener("click", function (event) {
@@ -465,7 +477,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50795" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54209" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

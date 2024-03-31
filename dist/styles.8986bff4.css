@@ -80,6 +80,10 @@ body {
   background-color: darkslategray;
 }
 
+.hits {
+  background-color: red;
+}
+
 .gameInfoContainer {
   display: flex;
   justify-content: space-around;
