@@ -302,7 +302,6 @@ function createGameLoop() {
       this.manageTurns();
     },
     manageTurns: function manageTurns(x, y) {
-      var _this = this;
       if (this.gameOver) {
         return;
       }
@@ -314,18 +313,16 @@ function createGameLoop() {
           if (!this.gameOver) {
             this.humanPlayer.toggleTurn();
             this.compPlayer.toggleTurn();
-            setTimeout(function () {
-              return _this.manageTurns();
-            }, 200);
+            // setTimeout(() => this.manageTurns(), 200);
+            if (this.compPlayer.isMyTurn) {
+              this.compPlayer.makeComputerMove(this.humanPlayer);
+              this.checkEndOfGame();
+              if (!this.gameOver) {
+                this.humanPlayer.toggleTurn();
+                this.compPlayer.toggleTurn();
+              }
+            }
           }
-        }
-      } else {
-        console.log("Computers players turn");
-        this.compPlayer.makeComputerMove(this.humanPlayer);
-        this.checkEndOfGame();
-        if (!this.gameOver) {
-          this.humanPlayer.toggleTurn();
-          this.compPlayer.toggleTurn();
         }
       }
     },
@@ -371,6 +368,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (playersBoard instanceof HTMLElement) {
         createGrid(gameLoop.humanPlayer.gameboard, playersBoard, "playersBoard");
       }
+      gameLoop.manageTurns();
     });
   } else {
     console.error("Start Game button not found");
@@ -471,7 +469,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54209" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34917" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

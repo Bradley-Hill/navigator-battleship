@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "playersBoard"
         );
       }
+      gameLoop.manageTurns();
     });
   } else {
     console.error("Start Game button not found");
