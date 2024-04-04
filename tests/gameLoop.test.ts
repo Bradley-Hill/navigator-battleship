@@ -31,13 +31,13 @@ test("Expect the gameLoop to manage turn alternating between players", () => {
   expect(gameLoop.compPlayer.isMyTurn).toBe(false);
 
   gameLoop.humanPlayer.makeHumanMove(0, 0, gameLoop.compPlayer);
-  gameLoop.manageTurns();
+  gameLoop.manageTurns(0, 0);
 
   expect(gameLoop.humanPlayer.isMyTurn).toBe(false);
   expect(gameLoop.compPlayer.isMyTurn).toBe(true);
 
   gameLoop.compPlayer.makeComputerMove(gameLoop.humanPlayer);
-  gameLoop.manageTurns();
+  gameLoop.manageTurns(0, 0);
 
   expect(gameLoop.humanPlayer.isMyTurn).toBe(true);
   expect(gameLoop.compPlayer.isMyTurn).toBe(false);
