@@ -53,14 +53,19 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.dataset.y = j.toString();
         if (boardClass === "opponentBoard") {
           cell.addEventListener("click", (event) => {
-            const target = event.target as HTMLElement;
-            if (target.dataset.x && target.dataset.y) {
-              const x = parseInt(target.dataset.x, 10);
-              const y = parseInt(target.dataset.y, 10);
-              gameLoop.manageTurns(x, y);
-              updateMoveLists();
+            if (!gameLoop.isGameStarted()) {
+              alert("Please click the Start Game button before making a move.");
+              event.preventDefault();
             } else {
-              console.error("Data attributes x and y are not set");
+              const target = event.target as HTMLElement;
+              if (target.dataset.x && target.dataset.y) {
+                const x = parseInt(target.dataset.x, 10);
+                const y = parseInt(target.dataset.y, 10);
+                gameLoop.manageTurns(x, y);
+                updateMoveLists();
+              } else {
+                console.error("Data attributes x and y are not set");
+              }
             }
           });
         }

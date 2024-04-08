@@ -288,9 +288,14 @@ var gameboard_1 = require("../src/gameboard");
 var player_1 = require("../src/player");
 function createGameLoop() {
   var gameLoop = {
+    gameStarted: false,
+    isGameStarted: function isGameStarted() {
+      return this.gameStarted;
+    },
     humanPlayer: (0, player_1.createPlayer)(true),
     compPlayer: (0, player_1.createPlayer)(false),
     startGame: function startGame() {
+      this.gameStarted = true;
       this.humanPlayer.gameboard = (0, gameboard_1.createGameboard)(10);
       this.humanPlayer.gameboard.createShips(0, 0, 1, "horizontal");
       this.humanPlayer.gameboard.createShips(0, 1, 1, "horizontal");
@@ -387,14 +392,19 @@ document.addEventListener("DOMContentLoaded", function () {
         cell.dataset.y = j.toString();
         if (boardClass === "opponentBoard") {
           cell.addEventListener("click", function (event) {
-            var target = event.target;
-            if (target.dataset.x && target.dataset.y) {
-              var x = parseInt(target.dataset.x, 10);
-              var y = parseInt(target.dataset.y, 10);
-              gameLoop.manageTurns(x, y);
-              updateMoveLists();
+            if (!gameLoop.isGameStarted()) {
+              alert("Please click the Start Game button before making a move.");
+              event.preventDefault();
             } else {
-              console.error("Data attributes x and y are not set");
+              var target = event.target;
+              if (target.dataset.x && target.dataset.y) {
+                var x = parseInt(target.dataset.x, 10);
+                var y = parseInt(target.dataset.y, 10);
+                gameLoop.manageTurns(x, y);
+                updateMoveLists();
+              } else {
+                console.error("Data attributes x and y are not set");
+              }
             }
           });
         }
@@ -469,7 +479,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34917" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56324" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

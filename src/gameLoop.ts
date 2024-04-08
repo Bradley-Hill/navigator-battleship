@@ -2,6 +2,8 @@ import { createGameboard } from "../src/gameboard";
 import { createPlayer, Player } from "../src/player";
 
 export interface Gameloop {
+  gameStarted: boolean;
+  isGameStarted: () => boolean;
   startGame: () => void;
   humanPlayer: Player;
   compPlayer: Player;
@@ -12,9 +14,14 @@ export interface Gameloop {
 
 export function createGameLoop(): Gameloop {
   let gameLoop: Gameloop = {
+    gameStarted: false,
+    isGameStarted: function () {
+      return this.gameStarted;
+    },
     humanPlayer: createPlayer(true),
     compPlayer: createPlayer(false),
     startGame: function () {
+      this.gameStarted = true;
       this.humanPlayer.gameboard = createGameboard(10);
       this.humanPlayer.gameboard.createShips(0, 0, 1, "horizontal");
       this.humanPlayer.gameboard.createShips(0, 1, 1, "horizontal");
