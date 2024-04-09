@@ -68,6 +68,14 @@ h3 {
   padding: 1rem;
 }
 
+.opponentBoardContainer,
+.playersBoardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .opponentBoard,
 .playersBoard {
   display: grid;
@@ -111,6 +119,7 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 2rem;
   width: 25rem;
 }
