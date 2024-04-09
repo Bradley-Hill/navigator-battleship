@@ -144,6 +144,22 @@ exports.createShip = createShip;
 },{}],"gameboard.ts":[function(require,module,exports) {
 "use strict";
 
+var __values = this && this.__values || function (o) {
+  var s = typeof Symbol === "function" && Symbol.iterator,
+    m = s && o[s],
+    i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+    next: function next() {
+      if (o && i >= o.length) o = void 0;
+      return {
+        value: o && o[i++],
+        done: !o
+      };
+    }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -179,6 +195,32 @@ function createGameboard(size) {
         gameboard.grid[x][y].occupied = true;
       }
       return ship;
+    },
+    createAllShips: function createAllShips() {
+      var e_1, _a;
+      var shipSizesArr = [6, 5, 4, 3, 2];
+      try {
+        for (var shipSizesArr_1 = __values(shipSizesArr), shipSizesArr_1_1 = shipSizesArr_1.next(); !shipSizesArr_1_1.done; shipSizesArr_1_1 = shipSizesArr_1.next()) {
+          var size_1 = shipSizesArr_1_1.value;
+          var ship = null;
+          while (ship === null) {
+            var orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
+            var gameboardX = Math.floor(Math.random() * this.size);
+            var gameboardY = Math.floor(Math.random() * this.size);
+            ship = this.createShips(gameboardX, gameboardY, size_1, orientation);
+          }
+        }
+      } catch (e_1_1) {
+        e_1 = {
+          error: e_1_1
+        };
+      } finally {
+        try {
+          if (shipSizesArr_1_1 && !shipSizesArr_1_1.done && (_a = shipSizesArr_1.return)) _a.call(shipSizesArr_1);
+        } finally {
+          if (e_1) throw e_1.error;
+        }
+      }
     },
     receiveAttack: function receiveAttack(gameboardX, gameboardY) {
       var _a;
@@ -297,13 +339,9 @@ function createGameLoop() {
     startGame: function startGame() {
       this.gameStarted = true;
       this.humanPlayer.gameboard = (0, gameboard_1.createGameboard)(10);
-      this.humanPlayer.gameboard.createShips(0, 0, 1, "horizontal");
-      this.humanPlayer.gameboard.createShips(0, 1, 1, "horizontal");
-      this.humanPlayer.gameboard.createShips(0, 2, 1, "horizontal");
+      this.humanPlayer.gameboard.createAllShips();
       this.compPlayer.gameboard = (0, gameboard_1.createGameboard)(10);
-      this.compPlayer.gameboard.createShips(0, 0, 1, "horizontal");
-      this.compPlayer.gameboard.createShips(0, 1, 1, "horizontal");
-      this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
+      this.compPlayer.gameboard.createAllShips();
       this.manageTurns();
     },
     manageTurns: function manageTurns(x, y) {
@@ -479,7 +517,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56324" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42207" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

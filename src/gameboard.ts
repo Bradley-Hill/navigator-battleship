@@ -15,6 +15,7 @@ export interface Gameboard {
     shipSize: number,
     orientation: "horizontal" | "vertical"
   ): Ship | null;
+  createAllShips(): void;
   receiveAttack(gameboardX: number, gameboardY: number): void;
   missedAttacks: [number, number][];
   allShipsSunk(): boolean;
@@ -53,6 +54,20 @@ export function createGameboard(size: number): Gameboard {
         gameboard.grid[x][y].occupied = true;
       }
       return ship;
+    },
+    createAllShips(): void {
+      const shipSizesArr = [6, 5, 4, 3, 2];
+
+      for (let size of shipSizesArr) {
+        let ship: Ship | null = null;
+        while (ship === null) {
+          const orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
+          const gameboardX = Math.floor(Math.random() * this.size);
+          const gameboardY = Math.floor(Math.random() * this.size);
+
+          ship = this.createShips(gameboardX, gameboardY, size, orientation);
+        }
+      }
     },
     receiveAttack(gameboardX: number, gameboardY: number): void {
       if (gameboard.grid[gameboardX][gameboardY].occupied) {

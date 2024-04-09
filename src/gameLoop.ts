@@ -23,14 +23,10 @@ export function createGameLoop(): Gameloop {
     startGame: function () {
       this.gameStarted = true;
       this.humanPlayer.gameboard = createGameboard(10);
-      this.humanPlayer.gameboard.createShips(0, 0, 1, "horizontal");
-      this.humanPlayer.gameboard.createShips(0, 1, 1, "horizontal");
-      this.humanPlayer.gameboard.createShips(0, 2, 1, "horizontal");
+      this.humanPlayer.gameboard.createAllShips();
 
       this.compPlayer.gameboard = createGameboard(10);
-      this.compPlayer.gameboard.createShips(0, 0, 1, "horizontal");
-      this.compPlayer.gameboard.createShips(0, 1, 1, "horizontal");
-      this.compPlayer.gameboard.createShips(0, 2, 1, "horizontal");
+      this.compPlayer.gameboard.createAllShips();
       this.manageTurns();
     },
     manageTurns: function (x?: number, y?: number) {
