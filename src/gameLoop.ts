@@ -41,7 +41,7 @@ export function createGameLoop(): Gameloop {
           if (!this.gameOver) {
             this.humanPlayer.toggleTurn();
             this.compPlayer.toggleTurn();
-            // setTimeout(() => this.manageTurns(), 200);
+
             if (this.compPlayer.isMyTurn) {
               this.compPlayer.makeComputerMove(this.humanPlayer);
               this.checkEndOfGame();

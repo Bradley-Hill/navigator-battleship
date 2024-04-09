@@ -50,9 +50,13 @@ export function createGameboard(size: number): Gameboard {
           return null;
         }
         ship.position.push([x, y]);
+      }
+
+      for (let [x, y] of ship.position) {
         gameboard.grid[x][y].ship = ship;
         gameboard.grid[x][y].occupied = true;
       }
+
       return ship;
     },
     createAllShips(): void {

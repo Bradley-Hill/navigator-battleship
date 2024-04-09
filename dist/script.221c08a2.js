@@ -160,6 +160,28 @@ var __values = this && this.__values || function (o) {
   };
   throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
+var __read = this && this.__read || function (o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o),
+    r,
+    ar = [],
+    e;
+  try {
+    while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  } catch (error) {
+    e = {
+      error: error
+    };
+  } finally {
+    try {
+      if (r && !r.done && (m = i["return"])) m.call(i);
+    } finally {
+      if (e) throw e.error;
+    }
+  }
+  return ar;
+};
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -182,6 +204,7 @@ function createGameboard(size) {
       });
     }),
     createShips: function createShips(gameboardX, gameboardY, shipSize, orientation) {
+      var e_1, _a;
       var ship = (0, ship_1.createShip)(shipSize);
       ship.position = [];
       for (var i = 0; i < shipSize; i++) {
@@ -191,13 +214,30 @@ function createGameboard(size) {
           return null;
         }
         ship.position.push([x, y]);
-        gameboard.grid[x][y].ship = ship;
-        gameboard.grid[x][y].occupied = true;
+      }
+      try {
+        for (var _b = __values(ship.position), _c = _b.next(); !_c.done; _c = _b.next()) {
+          var _d = __read(_c.value, 2),
+            x = _d[0],
+            y = _d[1];
+          gameboard.grid[x][y].ship = ship;
+          gameboard.grid[x][y].occupied = true;
+        }
+      } catch (e_1_1) {
+        e_1 = {
+          error: e_1_1
+        };
+      } finally {
+        try {
+          if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        } finally {
+          if (e_1) throw e_1.error;
+        }
       }
       return ship;
     },
     createAllShips: function createAllShips() {
-      var e_1, _a;
+      var e_2, _a;
       var shipSizesArr = [6, 5, 4, 3, 2];
       try {
         for (var shipSizesArr_1 = __values(shipSizesArr), shipSizesArr_1_1 = shipSizesArr_1.next(); !shipSizesArr_1_1.done; shipSizesArr_1_1 = shipSizesArr_1.next()) {
@@ -210,15 +250,15 @@ function createGameboard(size) {
             ship = this.createShips(gameboardX, gameboardY, size_1, orientation);
           }
         }
-      } catch (e_1_1) {
-        e_1 = {
-          error: e_1_1
+      } catch (e_2_1) {
+        e_2 = {
+          error: e_2_1
         };
       } finally {
         try {
           if (shipSizesArr_1_1 && !shipSizesArr_1_1.done && (_a = shipSizesArr_1.return)) _a.call(shipSizesArr_1);
         } finally {
-          if (e_1) throw e_1.error;
+          if (e_2) throw e_2.error;
         }
       }
     },
@@ -356,7 +396,6 @@ function createGameLoop() {
           if (!this.gameOver) {
             this.humanPlayer.toggleTurn();
             this.compPlayer.toggleTurn();
-            // setTimeout(() => this.manageTurns(), 200);
             if (this.compPlayer.isMyTurn) {
               this.compPlayer.makeComputerMove(this.humanPlayer);
               this.checkEndOfGame();
