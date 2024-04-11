@@ -269,6 +269,7 @@ function createGameboard(size) {
         (_a = gameboard.grid[gameboardX][gameboardY].ship) === null || _a === void 0 ? void 0 : _a.hit();
       } else {
         gameboard.missedAttacks.push([gameboardX, gameboardY]);
+        console.log(gameboard.missedAttacks);
       }
     },
     missedAttacks: [],
@@ -332,26 +333,55 @@ function createPlayer(isHuman) {
       opponent.gameboard.receiveAttack(x, y);
     },
     makeComputerMove: function makeComputerMove(opponent) {
-      if (!this.isHuman) {
-        var validMove = false;
-        var x_1 = 0;
-        var y_1 = 0;
-        while (!validMove) {
-          x_1 = Math.floor(Math.random() * opponent.gameboard.size);
-          y_1 = Math.floor(Math.random() * opponent.gameboard.size);
-          var missedShots = opponent.gameboard.getMissedShots();
-          var hitCells = opponent.gameboard.getHitCells();
-          if (!missedShots.some(function (shot) {
-            return shot[0] === x_1 && shot[1] == y_1;
-          }) && !hitCells.some(function (cell) {
-            return cell[0] === x_1 && cell[1] === y_1;
-          })) {
-            validMove = true;
+      var _this = this;
+      var validMove = null;
+      var adjacencyModifiers = [[0, 1], [1, 0], [-1, 0], [0, -1]];
+      var hitCells = opponent.gameboard.getHitCells();
+      hitCells.forEach(function (hitCell) {
+        adjacencyModifiers.forEach(function (modifier) {
+          var adjacentX = hitCell[0] + modifier[0];
+          var adjacentY = hitCell[1] + modifier[1];
+          if (adjacentX < _this.gameboard.size && adjacentX >= 0 && adjacentY < _this.gameboard.size && adjacentY >= 0) {
+            if (!_this.gameboard.getHitCells().some(function (cell) {
+              return cell[0] === adjacentX && cell[1] === adjacentY;
+            }) && !_this.gameboard.getMissedShots().some(function (cell) {
+              return cell[0] === adjacentX && cell[1] === adjacentY;
+            })) {
+              validMove = [adjacentX, adjacentY];
+            }
           }
+        });
+      });
+      if (validMove) {
+        if (!this.isHuman) {
+          var x = validMove[0];
+          var y = validMove[1];
+          opponent.gameboard.receiveAttack(x, y);
+          // validMove = null;
         }
-        opponent.gameboard.receiveAttack(x_1, y_1);
+      } else {
+        if (!this.isHuman) {
+          // if(!opponent.gameboard.getHitCells() || )
+          var validRandomMove = false;
+          var x_1 = 0;
+          var y_1 = 0;
+          while (!validRandomMove) {
+            x_1 = Math.floor(Math.random() * opponent.gameboard.size);
+            y_1 = Math.floor(Math.random() * opponent.gameboard.size);
+            var missedShots = opponent.gameboard.getMissedShots();
+            var hitCells_1 = opponent.gameboard.getHitCells();
+            if (!missedShots.some(function (shot) {
+              return shot[0] === x_1 && shot[1] == y_1;
+            }) && !hitCells_1.some(function (cell) {
+              return cell[0] === x_1 && cell[1] === y_1;
+            })) {
+              validRandomMove = true;
+            }
+          }
+          opponent.gameboard.receiveAttack(x_1, y_1);
+        }
+        console.log("Computer made a move");
       }
-      console.log("Computer made a move");
     },
     toggleTurn: function toggleTurn() {
       this.isMyTurn = !this.isMyTurn;
@@ -556,7 +586,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33145" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44583" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
