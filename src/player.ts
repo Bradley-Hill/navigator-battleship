@@ -63,6 +63,7 @@ export function createPlayer(isHuman: boolean): Player {
           let y: number = validMove[1];
           opponent.gameboard.receiveAttack(x, y);
           // this.isMyTurn = true;
+          validMove = null;
           console.log("Computer made a move at", x, y);
           console.log("State of the game after the computers move:", this);
           return true;
