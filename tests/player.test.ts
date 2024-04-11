@@ -66,3 +66,40 @@ test("Expect computer player to make a valid random move", () => {
   const hitCells = humanPlayer.gameboard.getHitCells();
   expect(missedShots.length + hitCells.length).toBe(1);
 });
+
+test("Expect the computer player to make a move adjacent to a confirmed hit", () => {
+  const humanPlayer = createPlayer(true);
+  const compPlayer = createPlayer(false);
+  humanPlayer.gameboard.createShips(1, 1, 3, "vertical");
+
+  let hit = false;
+  let hitCell;
+  while (!hit) {
+    compPlayer.makeComputerMove(humanPlayer);
+    const hitCells = humanPlayer.gameboard.getHitCells();
+    hit = hitCells.length > 0;
+    if (hit) {
+      hitCell = hitCells[0];
+    }
+  }
+
+  compPlayer.makeComputerMove(humanPlayer);
+
+  const missedShots = humanPlayer.gameboard.getMissedShots();
+  const hitCells = humanPlayer.gameboard.getHitCells();
+
+  const lastMove =
+    missedShots[missedShots.length - 1] || hitCells[hitCells.length - 1];
+
+  // Check that the last move was adjacent to the hit
+  if (hitCell) {
+    expect(
+      (lastMove[0] === hitCell[0] &&
+        (lastMove[1] === hitCell[1] - 1 || lastMove[1] === hitCell[1] + 1)) ||
+        (lastMove[1] === hitCell[1] &&
+          (lastMove[0] === hitCell[0] - 1 || lastMove[0] === hitCell[0] + 1))
+    ).toBe(true);
+  } else {
+    throw new Error("No hit was made");
+  }
+});
