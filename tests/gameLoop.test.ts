@@ -1,3 +1,4 @@
+import { Gameboard } from "../src/gameboard";
 import { createGameLoop } from "../src/gameLoop";
 
 test("Expect the gameLoop to create a human player and computer player,with gameBoards", () => {
@@ -13,6 +14,24 @@ test("Expect the gameLoop to create a human player and computer player,with game
 test("Expect the gameLoop to place 5 ships on each gameboard", () => {
   const gameLoop = createGameLoop();
   gameLoop.startGame();
+
+  const humanPlayerGameboard = gameLoop.humanPlayer.gameboard;
+  const compPlayerGameboard = gameLoop.compPlayer.gameboard;
+
+  const countUniqueShips = (gameboard: Gameboard) => {
+    const shipsSet = new Set();
+    gameboard.grid.forEach((row) => {
+      row.forEach((cell) => {
+        if (cell.ship !== null) {
+          shipsSet.add(cell.ship);
+        }
+      });
+    });
+    return shipsSet.size;
+  };
+
+  expect(countUniqueShips(humanPlayerGameboard)).toBe(5);
+  expect(countUniqueShips(compPlayerGameboard)).toBe(5);
 });
 
 test("Expect checkEndOfGame to correctly set gameOver to true", () => {
