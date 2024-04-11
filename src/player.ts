@@ -31,42 +31,40 @@ export function createPlayer(isHuman: boolean): Player {
         [0, -1],
       ];
       const hitCells = opponent.gameboard.getHitCells();
-      hitCells.forEach((hitCell) => {
-        adjacencyModifiers.forEach((modifier) => {
-          const adjacentX = hitCell[0] + modifier[0];
-          const adjacentY = hitCell[1] + modifier[1];
+
+      for (let i = 0; i < hitCells.length; i++) {
+        let hitCell = hitCells[i];
+        for (let j = 0; j < adjacencyModifiers.length; j++) {
+          let modifier = adjacencyModifiers[j];
+          let adjacentX = hitCell[0] + modifier[0];
+          let adjacentY = hitCell[1] + modifier[1];
 
           if (
-            adjacentX < this.gameboard.size &&
             adjacentX >= 0 &&
+            adjacentX < this.gameboard.size &&
+            adjacentY >= 0 &&
             adjacentY < this.gameboard.size &&
-            adjacentY >= 0
+            !this.gameboard
+              .getHitCells()
+              .some((cell) => cell[0] === adjacentX && cell[1] === adjacentY) &&
+            !this.gameboard
+              .getMissedShots()
+              .some((cell) => cell[0] === adjacentX && cell[1] === adjacentY)
           ) {
-            if (
-              !this.gameboard
-                .getHitCells()
-                .some(
-                  (cell) => cell[0] === adjacentX && cell[1] === adjacentY
-                ) &&
-              !this.gameboard
-                .getMissedShots()
-                .some((cell) => cell[0] === adjacentX && cell[1] === adjacentY)
-            ) {
-              validMove = [adjacentX, adjacentY];
-            }
+            validMove = [adjacentX, adjacentY];
+            return;
           }
-        });
-      });
+        }
+      }
+
       if (validMove) {
         if (!this.isHuman) {
           let x: number = validMove[0];
           let y: number = validMove[1];
           opponent.gameboard.receiveAttack(x, y);
-          // validMove = null;
         }
       } else {
         if (!this.isHuman) {
-          // if(!opponent.gameboard.getHitCells() || )
           let validRandomMove = false;
           let x: number = 0;
           let y: number = 0;

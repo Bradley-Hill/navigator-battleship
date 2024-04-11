@@ -310,6 +310,7 @@ exports.createGameboard = createGameboard;
 },{"../src/ship":"ship.ts"}],"player.ts":[function(require,module,exports) {
 "use strict";
 
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -333,35 +334,40 @@ function createPlayer(isHuman) {
       opponent.gameboard.receiveAttack(x, y);
     },
     makeComputerMove: function makeComputerMove(opponent) {
-      var _this = this;
       var validMove = null;
       var adjacencyModifiers = [[0, 1], [1, 0], [-1, 0], [0, -1]];
       var hitCells = opponent.gameboard.getHitCells();
-      hitCells.forEach(function (hitCell) {
-        adjacencyModifiers.forEach(function (modifier) {
+      for (var i = 0; i < hitCells.length; i++) {
+        var hitCell = hitCells[i];
+        var _loop_1 = function _loop_1(j) {
+          var modifier = adjacencyModifiers[j];
           var adjacentX = hitCell[0] + modifier[0];
           var adjacentY = hitCell[1] + modifier[1];
-          if (adjacentX < _this.gameboard.size && adjacentX >= 0 && adjacentY < _this.gameboard.size && adjacentY >= 0) {
-            if (!_this.gameboard.getHitCells().some(function (cell) {
-              return cell[0] === adjacentX && cell[1] === adjacentY;
-            }) && !_this.gameboard.getMissedShots().some(function (cell) {
-              return cell[0] === adjacentX && cell[1] === adjacentY;
-            })) {
-              validMove = [adjacentX, adjacentY];
-            }
+          if (adjacentX >= 0 && adjacentX < this_1.gameboard.size && adjacentY >= 0 && adjacentY < this_1.gameboard.size && !this_1.gameboard.getHitCells().some(function (cell) {
+            return cell[0] === adjacentX && cell[1] === adjacentY;
+          }) && !this_1.gameboard.getMissedShots().some(function (cell) {
+            return cell[0] === adjacentX && cell[1] === adjacentY;
+          })) {
+            validMove = [adjacentX, adjacentY];
+            return {
+              value: void 0
+            };
           }
-        });
-      });
+        };
+        var this_1 = this;
+        for (var j = 0; j < adjacencyModifiers.length; j++) {
+          var state_1 = _loop_1(j);
+          if (_typeof(state_1) === "object") return state_1.value;
+        }
+      }
       if (validMove) {
         if (!this.isHuman) {
           var x = validMove[0];
           var y = validMove[1];
           opponent.gameboard.receiveAttack(x, y);
-          // validMove = null;
         }
       } else {
         if (!this.isHuman) {
-          // if(!opponent.gameboard.getHitCells() || )
           var validRandomMove = false;
           var x_1 = 0;
           var y_1 = 0;
