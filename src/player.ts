@@ -32,7 +32,7 @@ export function createPlayer(isHuman: boolean): Player {
       ];
       const hitCells = opponent.gameboard.getHitCells();
 
-      for (let i = 0; i < hitCells.length; i++) {
+      outerLoop: for (let i = 0; i < hitCells.length; i++) {
         let hitCell = hitCells[i];
         for (let j = 0; j < adjacencyModifiers.length; j++) {
           let modifier = adjacencyModifiers[j];
@@ -52,7 +52,7 @@ export function createPlayer(isHuman: boolean): Player {
               .some((cell) => cell[0] === adjacentX && cell[1] === adjacentY)
           ) {
             validMove = [adjacentX, adjacentY];
-            return;
+            break outerLoop;
           }
         }
       }
@@ -62,6 +62,10 @@ export function createPlayer(isHuman: boolean): Player {
           let x: number = validMove[0];
           let y: number = validMove[1];
           opponent.gameboard.receiveAttack(x, y);
+          // this.isMyTurn = true;
+          console.log("Computer made a move at", x, y);
+          console.log("State of the game after the computers move:", this);
+          return true;
         }
       } else {
         if (!this.isHuman) {
@@ -82,6 +86,9 @@ export function createPlayer(isHuman: boolean): Player {
             }
           }
           opponent.gameboard.receiveAttack(x, y);
+          // this.isMyTurn = true;
+          console.log("Computer made a move at", x, y);
+          console.log("State of the game after the computers move:", this);
         }
         console.log("Computer made a move");
       }

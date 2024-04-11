@@ -269,7 +269,8 @@ function createGameboard(size) {
         (_a = gameboard.grid[gameboardX][gameboardY].ship) === null || _a === void 0 ? void 0 : _a.hit();
       } else {
         gameboard.missedAttacks.push([gameboardX, gameboardY]);
-        console.log(gameboard.missedAttacks);
+        // console.log(gameboard.missedAttacks);
+        console.log("State of game after receiving attack:", this);
       }
     },
     missedAttacks: [],
@@ -310,7 +311,6 @@ exports.createGameboard = createGameboard;
 },{"../src/ship":"ship.ts"}],"player.ts":[function(require,module,exports) {
 "use strict";
 
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -337,7 +337,7 @@ function createPlayer(isHuman) {
       var validMove = null;
       var adjacencyModifiers = [[0, 1], [1, 0], [-1, 0], [0, -1]];
       var hitCells = opponent.gameboard.getHitCells();
-      for (var i = 0; i < hitCells.length; i++) {
+      outerLoop: for (var i = 0; i < hitCells.length; i++) {
         var hitCell = hitCells[i];
         var _loop_1 = function _loop_1(j) {
           var modifier = adjacencyModifiers[j];
@@ -349,15 +349,16 @@ function createPlayer(isHuman) {
             return cell[0] === adjacentX && cell[1] === adjacentY;
           })) {
             validMove = [adjacentX, adjacentY];
-            return {
-              value: void 0
-            };
+            return "break-outerLoop";
           }
         };
         var this_1 = this;
         for (var j = 0; j < adjacencyModifiers.length; j++) {
           var state_1 = _loop_1(j);
-          if (_typeof(state_1) === "object") return state_1.value;
+          switch (state_1) {
+            case "break-outerLoop":
+              break outerLoop;
+          }
         }
       }
       if (validMove) {
@@ -365,6 +366,10 @@ function createPlayer(isHuman) {
           var x = validMove[0];
           var y = validMove[1];
           opponent.gameboard.receiveAttack(x, y);
+          // this.isMyTurn = true;
+          console.log("Computer made a move at", x, y);
+          console.log("State of the game after the computers move:", this);
+          return true;
         }
       } else {
         if (!this.isHuman) {
@@ -385,6 +390,9 @@ function createPlayer(isHuman) {
             }
           }
           opponent.gameboard.receiveAttack(x_1, y_1);
+          // this.isMyTurn = true;
+          console.log("Computer made a move at", x_1, y_1);
+          console.log("State of the game after the computers move:", this);
         }
         console.log("Computer made a move");
       }
