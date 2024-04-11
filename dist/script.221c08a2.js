@@ -334,69 +334,27 @@ function createPlayer(isHuman) {
       opponent.gameboard.receiveAttack(x, y);
     },
     makeComputerMove: function makeComputerMove(opponent) {
-      var validMove = null;
-      var adjacencyModifiers = [[0, 1], [1, 0], [-1, 0], [0, -1]];
       var hitCells = opponent.gameboard.getHitCells();
-      outerLoop: for (var i = 0; i < hitCells.length; i++) {
-        var hitCell = hitCells[i];
-        var _loop_1 = function _loop_1(j) {
-          var modifier = adjacencyModifiers[j];
-          var adjacentX = hitCell[0] + modifier[0];
-          var adjacentY = hitCell[1] + modifier[1];
-          if (adjacentX >= 0 && adjacentX < this_1.gameboard.size && adjacentY >= 0 && adjacentY < this_1.gameboard.size && !this_1.gameboard.getHitCells().some(function (cell) {
-            return cell[0] === adjacentX && cell[1] === adjacentY;
-          }) && !this_1.gameboard.getMissedShots().some(function (cell) {
-            return cell[0] === adjacentX && cell[1] === adjacentY;
+      if (!this.isHuman) {
+        var validRandomMove = false;
+        var x_1 = 0;
+        var y_1 = 0;
+        while (!validRandomMove) {
+          x_1 = Math.floor(Math.random() * opponent.gameboard.size);
+          y_1 = Math.floor(Math.random() * opponent.gameboard.size);
+          var missedShots = opponent.gameboard.getMissedShots();
+          var hitCells_1 = opponent.gameboard.getHitCells();
+          if (!missedShots.some(function (shot) {
+            return shot[0] === x_1 && shot[1] == y_1;
+          }) && !hitCells_1.some(function (cell) {
+            return cell[0] === x_1 && cell[1] === y_1;
           })) {
-            validMove = [adjacentX, adjacentY];
-            return "break-outerLoop";
-          }
-        };
-        var this_1 = this;
-        for (var j = 0; j < adjacencyModifiers.length; j++) {
-          var state_1 = _loop_1(j);
-          switch (state_1) {
-            case "break-outerLoop":
-              break outerLoop;
+            validRandomMove = true;
           }
         }
+        opponent.gameboard.receiveAttack(x_1, y_1);
       }
-      if (validMove) {
-        if (!this.isHuman) {
-          var x = validMove[0];
-          var y = validMove[1];
-          opponent.gameboard.receiveAttack(x, y);
-          // this.isMyTurn = true;
-          validMove = null;
-          console.log("Computer made a move at", x, y);
-          console.log("State of the game after the computers move:", this);
-          return true;
-        }
-      } else {
-        if (!this.isHuman) {
-          var validRandomMove = false;
-          var x_1 = 0;
-          var y_1 = 0;
-          while (!validRandomMove) {
-            x_1 = Math.floor(Math.random() * opponent.gameboard.size);
-            y_1 = Math.floor(Math.random() * opponent.gameboard.size);
-            var missedShots = opponent.gameboard.getMissedShots();
-            var hitCells_1 = opponent.gameboard.getHitCells();
-            if (!missedShots.some(function (shot) {
-              return shot[0] === x_1 && shot[1] == y_1;
-            }) && !hitCells_1.some(function (cell) {
-              return cell[0] === x_1 && cell[1] === y_1;
-            })) {
-              validRandomMove = true;
-            }
-          }
-          opponent.gameboard.receiveAttack(x_1, y_1);
-          // this.isMyTurn = true;
-          console.log("Computer made a move at", x_1, y_1);
-          console.log("State of the game after the computers move:", this);
-        }
-        console.log("Computer made a move");
-      }
+      console.log("Computer made a move");
     },
     toggleTurn: function toggleTurn() {
       this.isMyTurn = !this.isMyTurn;
@@ -601,7 +559,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44583" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40751" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -79,8 +79,6 @@ export function createGameboard(size: number): Gameboard {
         gameboard.grid[gameboardX][gameboardY].ship?.hit();
       } else {
         gameboard.missedAttacks.push([gameboardX, gameboardY]);
-        // console.log(gameboard.missedAttacks);
-        console.log("State of game after receiving attack:", this);
       }
     },
     missedAttacks: [],
