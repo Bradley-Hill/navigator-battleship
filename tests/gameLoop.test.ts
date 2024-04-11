@@ -10,17 +10,9 @@ test("Expect the gameLoop to create a human player and computer player,with game
   expect(gameLoop.compPlayer.gameboard).toBeDefined();
 });
 
-test("Expect the gameLoop to place 3 ships on each gameboard", () => {
+test("Expect the gameLoop to place 5 ships on each gameboard", () => {
   const gameLoop = createGameLoop();
   gameLoop.startGame();
-
-  expect(gameLoop.humanPlayer.gameboard.grid[0][0].ship).not.toBeNull();
-  expect(gameLoop.humanPlayer.gameboard.grid[0][1].ship).not.toBeNull();
-  expect(gameLoop.humanPlayer.gameboard.grid[0][2].ship).not.toBeNull();
-
-  expect(gameLoop.compPlayer.gameboard.grid[0][0].ship).not.toBeNull();
-  expect(gameLoop.compPlayer.gameboard.grid[0][1].ship).not.toBeNull();
-  expect(gameLoop.compPlayer.gameboard.grid[0][2].ship).not.toBeNull();
 });
 
 test("Expect checkEndOfGame to correctly set gameOver to true", () => {

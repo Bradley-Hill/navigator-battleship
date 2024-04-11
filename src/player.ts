@@ -23,8 +23,6 @@ export function createPlayer(isHuman: boolean): Player {
     },
 
     makeComputerMove: function (opponent: Player) {
-      const hitCells = opponent.gameboard.getHitCells();
-
       if (!this.isHuman) {
         let validRandomMove = false;
         let x: number = 0;
