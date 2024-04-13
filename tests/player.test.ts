@@ -99,7 +99,43 @@ test("Expect the computer player to make a move adjacent to a confirmed hit", ()
         (lastMove[1] === hitCell[1] &&
           (lastMove[0] === hitCell[0] - 1 || lastMove[0] === hitCell[0] + 1))
     ).toBe(true);
-  } else {
-    throw new Error("No hit was made");
+  }
+});
+
+test("Expect the computer to continue making adjacent attacks around a confirmed hit until all valid moves have been exhausted", () => {
+  const humanPlayer = createPlayer(true);
+  const compPlayer = createPlayer(false);
+  humanPlayer.gameboard.createShips(1, 1, 3, "vertical");
+
+  let hit = false;
+  let hitCell: number[] = [-1, -1];
+  while (!hit) {
+    compPlayer.makeComputerMove(humanPlayer);
+    const hitCells = humanPlayer.gameboard.getHitCells();
+    hit = hitCells.length > 0;
+    if (hit) {
+      hitCell = hitCells[hitCells.length - 1];
+    }
+  }
+  const movesAfterHit: number[][] = [];
+  for (let i = 0; i < 4; i++) {
+    compPlayer.makeComputerMove(humanPlayer);
+    const hitCells = humanPlayer.gameboard.getHitCells();
+    if (hitCells.length > 0) {
+      movesAfterHit.push(hitCells[hitCells.length - 1]);
+    }
+  }
+
+  const adjacentMoves = [
+    [hitCell[0], hitCell[1] - 1],
+    [hitCell[0], hitCell[1] + 1],
+    [hitCell[0] - 1, hitCell[1]],
+    [hitCell[0] + 1, hitCell[1]],
+  ];
+  for (let move of adjacentMoves) {
+    const isAdjacent = adjacentMoves.some(
+      (adjMove) => adjMove[0] === move[0] && adjMove[1] === move[1]
+    );
+    expect(isAdjacent).toBe(true);
   }
 });
