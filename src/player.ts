@@ -24,6 +24,32 @@ export function createPlayer(isHuman: boolean): Player {
 
     makeComputerMove: function (opponent: Player) {
       if (!this.isHuman) {
+        if (opponent.gameboard.getHitCells().length > 0) {
+          let adjacentMoveModifiers: number[][] = [
+            [0, 1],
+            [1, 0],
+            [-1, 0],
+            [0, -1],
+          ];
+          let lastHitCell =
+            opponent.gameboard.getHitCells()[
+              opponent.gameboard.getHitCells().length - 1
+            ];
+          for (let i = 0; i < adjacentMoveModifiers.length; i++) {
+            let x = lastHitCell[0] + adjacentMoveModifiers[i][0];
+            let y = lastHitCell[1] + adjacentMoveModifiers[i][1];
+            if (
+              x >= 0 &&
+              x < opponent.gameboard.size &&
+              y >= 0 &&
+              y < opponent.gameboard.size &&
+              !opponent.gameboard.getMissedShots().includes([x, y])
+            ) {
+              opponent.gameboard.receiveAttack(x, y);
+              return;
+            }
+          }
+        }
         let validRandomMove = false;
         let x: number = 0;
         let y: number = 0;
