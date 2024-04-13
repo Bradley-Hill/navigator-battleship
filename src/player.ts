@@ -43,7 +43,9 @@ export function createPlayer(isHuman: boolean): Player {
               x < opponent.gameboard.size &&
               y >= 0 &&
               y < opponent.gameboard.size &&
-              !opponent.gameboard.getMissedShots().includes([x, y])
+              !opponent.gameboard
+                .getMissedShots()
+                .some((shot) => shot[0] === x && shot[1] === y)
             ) {
               opponent.gameboard.receiveAttack(x, y);
               return;
