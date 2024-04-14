@@ -119,10 +119,9 @@ test("Expect the computer to continue making adjacent attacks around a confirmed
   }
   const movesAfterHit: number[][] = [];
   for (let i = 0; i < 4; i++) {
-    compPlayer.makeComputerMove(humanPlayer);
-    const hitCells = humanPlayer.gameboard.getHitCells();
-    if (hitCells.length > 0) {
-      movesAfterHit.push(hitCells[hitCells.length - 1]);
+    const move = compPlayer.makeComputerMove(humanPlayer);
+    if (move !== undefined) {
+      movesAfterHit.push(move);
     }
   }
 

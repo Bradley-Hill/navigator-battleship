@@ -410,13 +410,13 @@ function createPlayer(isHuman) {
         var hitCells = opponent.gameboard.getHitCells();
         if (hitCells.length > 0) {
           var adjacentMoveModifiers = [[0, 1], [1, 0], [-1, 0], [0, -1]];
-          function shuffleArray(array) {
+          var shuffleArray = function shuffleArray(array) {
             var _a;
             for (var i = array.length - 1; i > 0; i--) {
               var j = Math.floor(Math.random() * (i + 1));
               _a = __read([array[j], array[i]], 2), array[i] = _a[0], array[j] = _a[1];
             }
-          }
+          };
           shuffleArray(adjacentMoveModifiers);
           var lastHitCell = hitCells[hitCells.length - 1];
           var validMoveFound = false;
@@ -666,7 +666,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50513" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50998" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
