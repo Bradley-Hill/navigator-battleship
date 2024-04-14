@@ -3,6 +3,7 @@ import { createPlayer, Player } from "../src/player";
 
 export interface Gameloop {
   gameStarted: boolean;
+  setDifficulty: (isHardDifficulty: boolean) => void;
   isGameStarted: () => boolean;
   startGame: () => void;
   humanPlayer: Player;
@@ -12,14 +13,18 @@ export interface Gameloop {
   gameOver: boolean;
 }
 
-export function createGameLoop(): Gameloop {
+export function createGameLoop(isHardDifficulty: boolean): Gameloop {
   let gameLoop: Gameloop = {
     gameStarted: false,
+    setDifficulty: function (isHardDifficulty: boolean) {
+      this.humanPlayer.isHardDifficulty = isHardDifficulty;
+      this.compPlayer.isHardDifficulty = isHardDifficulty;
+    },
     isGameStarted: function () {
       return this.gameStarted;
     },
-    humanPlayer: createPlayer(true),
-    compPlayer: createPlayer(false),
+    humanPlayer: createPlayer(true, isHardDifficulty),
+    compPlayer: createPlayer(false, isHardDifficulty),
     startGame: function () {
       this.gameStarted = true;
       this.humanPlayer.gameboard = createGameboard(10);

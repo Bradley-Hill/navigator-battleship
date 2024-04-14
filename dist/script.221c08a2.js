@@ -397,6 +397,8 @@ function createPlayer(isHuman, isHardDifficulty) {
           } else {
             this.makeRandomMove(opponent);
           }
+        } else {
+          this.makeRandomMove(opponent);
         }
         console.log("Computer made a move");
       }
@@ -432,14 +434,18 @@ Object.defineProperty(exports, "__esModule", {
 exports.createGameLoop = void 0;
 var gameboard_1 = require("../src/gameboard");
 var player_1 = require("../src/player");
-function createGameLoop() {
+function createGameLoop(isHardDifficulty) {
   var gameLoop = {
     gameStarted: false,
+    setDifficulty: function setDifficulty(isHardDifficulty) {
+      this.humanPlayer.isHardDifficulty = isHardDifficulty;
+      this.compPlayer.isHardDifficulty = isHardDifficulty;
+    },
     isGameStarted: function isGameStarted() {
       return this.gameStarted;
     },
-    humanPlayer: (0, player_1.createPlayer)(true),
-    compPlayer: (0, player_1.createPlayer)(false),
+    humanPlayer: (0, player_1.createPlayer)(true, isHardDifficulty),
+    compPlayer: (0, player_1.createPlayer)(false, isHardDifficulty),
     startGame: function startGame() {
       this.gameStarted = true;
       this.humanPlayer.gameboard = (0, gameboard_1.createGameboard)(10);
@@ -498,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var difficultySelector = document.querySelector("#difficulty");
   var opponentBoard = document.querySelector(".opponentBoard");
   var playersBoard = document.querySelector(".playersBoard");
-  var gameLoop = (0, gameLoop_1.createGameLoop)();
+  var gameLoop = (0, gameLoop_1.createGameLoop)(false);
   if (opponentBoard instanceof HTMLElement) {
     createGrid(gameLoop.humanPlayer.gameboard, opponentBoard, "opponentBoard");
   } else {
@@ -512,9 +518,25 @@ document.addEventListener("DOMContentLoaded", function () {
   if (startGameBtn && difficultySelector) {
     startGameBtn.addEventListener("click", function () {
       difficultySelector.disabled = true;
+      var isHardDifficulty = difficultySelector.value === "Hard";
+      gameLoop = (0, gameLoop_1.createGameLoop)(isHardDifficulty);
       gameLoop.startGame();
+      // if (playersBoard instanceof HTMLElement) {
+      //   createGrid(
+      //     gameLoop.humanPlayer.gameboard,
+      //     playersBoard,
+      //     "playersBoard"
+      //   );
+      // }
+      if (opponentBoard instanceof HTMLElement) {
+        createGrid(gameLoop.humanPlayer.gameboard, opponentBoard, "opponentBoard");
+      } else {
+        console.error("Opponent board not found");
+      }
       if (playersBoard instanceof HTMLElement) {
         createGrid(gameLoop.humanPlayer.gameboard, playersBoard, "playersBoard");
+      } else {
+        console.error("Players board not found");
       }
       gameLoop.manageTurns();
     });

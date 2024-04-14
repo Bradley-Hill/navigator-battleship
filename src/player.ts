@@ -82,6 +82,8 @@ export function createPlayer(
           } else {
             this.makeRandomMove(opponent);
           }
+        } else {
+          this.makeRandomMove(opponent);
         }
         console.log("Computer made a move");
       }

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const opponentBoard = document.querySelector(".opponentBoard");
   const playersBoard = document.querySelector(".playersBoard");
 
-  const gameLoop = createGameLoop();
+  let gameLoop = createGameLoop(false);
 
   if (opponentBoard instanceof HTMLElement) {
     createGrid(gameLoop.humanPlayer.gameboard, opponentBoard, "opponentBoard");
@@ -25,14 +25,36 @@ document.addEventListener("DOMContentLoaded", () => {
   if (startGameBtn && difficultySelector) {
     startGameBtn.addEventListener("click", () => {
       difficultySelector.disabled = true;
+      let isHardDifficulty = difficultySelector.value === "Hard";
+      gameLoop = createGameLoop(isHardDifficulty);
       gameLoop.startGame();
+      // if (playersBoard instanceof HTMLElement) {
+      //   createGrid(
+      //     gameLoop.humanPlayer.gameboard,
+      //     playersBoard,
+      //     "playersBoard"
+      //   );
+      // }
+
+      if (opponentBoard instanceof HTMLElement) {
+        createGrid(
+          gameLoop.humanPlayer.gameboard,
+          opponentBoard,
+          "opponentBoard"
+        );
+      } else {
+        console.error("Opponent board not found");
+      }
       if (playersBoard instanceof HTMLElement) {
         createGrid(
           gameLoop.humanPlayer.gameboard,
           playersBoard,
           "playersBoard"
         );
+      } else {
+        console.error("Players board not found");
       }
+
       gameLoop.manageTurns();
     });
   } else {
