@@ -309,6 +309,28 @@ exports.createGameboard = createGameboard;
 },{"../src/ship":"ship.ts"}],"player.ts":[function(require,module,exports) {
 "use strict";
 
+var __read = this && this.__read || function (o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o),
+    r,
+    ar = [],
+    e;
+  try {
+    while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  } catch (error) {
+    e = {
+      error: error
+    };
+  } finally {
+    try {
+      if (r && !r.done && (m = i["return"])) m.call(i);
+    } finally {
+      if (e) throw e.error;
+    }
+  }
+  return ar;
+};
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -388,6 +410,14 @@ function createPlayer(isHuman) {
         var hitCells = opponent.gameboard.getHitCells();
         if (hitCells.length > 0) {
           var adjacentMoveModifiers = [[0, 1], [1, 0], [-1, 0], [0, -1]];
+          function shuffleArray(array) {
+            var _a;
+            for (var i = array.length - 1; i > 0; i--) {
+              var j = Math.floor(Math.random() * (i + 1));
+              _a = __read([array[j], array[i]], 2), array[i] = _a[0], array[j] = _a[1];
+            }
+          }
+          shuffleArray(adjacentMoveModifiers);
           var lastHitCell = hitCells[hitCells.length - 1];
           var validMoveFound = false;
           var _loop_1 = function _loop_1() {
@@ -397,6 +427,8 @@ function createPlayer(isHuman) {
               var y_1 = lastHitCell[1] + modifier[1];
               if (x_1 >= 0 && x_1 < opponent.gameboard.size && y_1 >= 0 && y_1 < opponent.gameboard.size && !opponent.gameboard.getMissedShots().some(function (shot) {
                 return shot[0] === x_1 && shot[1] === y_1;
+              }) && !opponent.gameboard.getHitCells().some(function (hit) {
+                return hit[0] === x_1 && hit[1] === y_1;
               })) {
                 opponent.gameboard.receiveAttack(x_1, y_1);
                 validMoveFound = true;

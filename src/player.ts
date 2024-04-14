@@ -86,6 +86,16 @@ export function createPlayer(isHuman: boolean): Player {
             [-1, 0],
             [0, -1],
           ];
+
+          function shuffleArray(array: any[]) {
+            for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+            }
+          }
+
+          shuffleArray(adjacentMoveModifiers);
+
           let lastHitCell = hitCells[hitCells.length - 1];
           let validMoveFound = false;
           while (!validMoveFound && adjacentMoveModifiers.length > 0) {
@@ -100,7 +110,10 @@ export function createPlayer(isHuman: boolean): Player {
                 y < opponent.gameboard.size &&
                 !opponent.gameboard
                   .getMissedShots()
-                  .some((shot) => shot[0] === x && shot[1] === y)
+                  .some((shot) => shot[0] === x && shot[1] === y) &&
+                !opponent.gameboard
+                  .getHitCells()
+                  .some((hit) => hit[0] === x && hit[1] === y)
               ) {
                 opponent.gameboard.receiveAttack(x, y);
                 validMoveFound = true;
