@@ -18,6 +18,7 @@ export interface Gameboard {
   createAllShips(): void;
   receiveAttack(gameboardX: number, gameboardY: number): void;
   missedAttacks: [number, number][];
+  hitCells: number[][];
   allShipsSunk(): boolean;
   getMissedShots: () => number[][];
   getHitCells: () => number[][];
@@ -77,11 +78,13 @@ export function createGameboard(size: number): Gameboard {
       if (gameboard.grid[gameboardX][gameboardY].occupied) {
         gameboard.grid[gameboardX][gameboardY].hit = true;
         gameboard.grid[gameboardX][gameboardY].ship?.hit();
+        gameboard.hitCells.push([gameboardX, gameboardY]);
       } else {
         gameboard.missedAttacks.push([gameboardX, gameboardY]);
       }
     },
     missedAttacks: [],
+    hitCells: [],
     allShipsSunk() {
       for (let i = 0; i < this.grid.length; i++) {
         for (let j = 0; j < this.grid.length; j++) {

@@ -267,11 +267,13 @@ function createGameboard(size) {
       if (gameboard.grid[gameboardX][gameboardY].occupied) {
         gameboard.grid[gameboardX][gameboardY].hit = true;
         (_a = gameboard.grid[gameboardX][gameboardY].ship) === null || _a === void 0 ? void 0 : _a.hit();
+        gameboard.hitCells.push([gameboardX, gameboardY]);
       } else {
         gameboard.missedAttacks.push([gameboardX, gameboardY]);
       }
     },
     missedAttacks: [],
+    hitCells: [],
     allShipsSunk: function allShipsSunk() {
       var _a, _b;
       for (var i = 0; i < this.grid.length; i++) {
@@ -360,7 +362,7 @@ function createPlayer(isHuman, isHardDifficulty) {
     makeComputerMove: function makeComputerMove(opponent) {
       if (!this.isHuman) {
         if (this.isHardDifficulty) {
-          var hitCells = opponent.gameboard.getHitCells();
+          var hitCells = opponent.gameboard.hitCells;
           if (hitCells.length > 0) {
             var adjacentMoveModifiers = [[0, 1], [1, 0], [-1, 0], [0, -1]];
             var shuffleArray = function shuffleArray(array) {
@@ -378,9 +380,9 @@ function createPlayer(isHuman, isHardDifficulty) {
               if (modifier) {
                 var x_1 = lastHitCell[0] + modifier[0];
                 var y_1 = lastHitCell[1] + modifier[1];
-                if (x_1 >= 0 && x_1 < opponent.gameboard.size && y_1 >= 0 && y_1 < opponent.gameboard.size && !opponent.gameboard.getMissedShots().some(function (shot) {
+                if (x_1 >= 0 && x_1 < opponent.gameboard.size && y_1 >= 0 && y_1 < opponent.gameboard.size && !opponent.gameboard.missedAttacks.some(function (shot) {
                   return shot[0] === x_1 && shot[1] === y_1;
-                }) && !opponent.gameboard.getHitCells().some(function (hit) {
+                }) && !opponent.gameboard.hitCells.some(function (hit) {
                   return hit[0] === x_1 && hit[1] === y_1;
                 })) {
                   opponent.gameboard.receiveAttack(x_1, y_1);
@@ -644,7 +646,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54114" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49846" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

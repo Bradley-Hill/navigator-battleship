@@ -34,7 +34,7 @@ export function createPlayer(
     makeComputerMove: function (opponent: Player) {
       if (!this.isHuman) {
         if (this.isHardDifficulty) {
-          let hitCells = opponent.gameboard.getHitCells();
+          let hitCells = opponent.gameboard.hitCells;
           if (hitCells.length > 0) {
             let adjacentMoveModifiers: number[][] = [
               [0, 1],
@@ -64,12 +64,12 @@ export function createPlayer(
                   x < opponent.gameboard.size &&
                   y >= 0 &&
                   y < opponent.gameboard.size &&
-                  !opponent.gameboard
-                    .getMissedShots()
-                    .some((shot) => shot[0] === x && shot[1] === y) &&
-                  !opponent.gameboard
-                    .getHitCells()
-                    .some((hit) => hit[0] === x && hit[1] === y)
+                  !opponent.gameboard.missedAttacks.some(
+                    (shot) => shot[0] === x && shot[1] === y
+                  ) &&
+                  !opponent.gameboard.hitCells.some(
+                    (hit) => hit[0] === x && hit[1] === y
+                  )
                 ) {
                   opponent.gameboard.receiveAttack(x, y);
                   validMoveFound = true;
