@@ -9,14 +9,19 @@ export interface Player {
   makeComputerMove: (opponent: Player) => void;
   makeRandomMove: (opponent: Player) => void;
   toggleTurn: () => void;
+  isHardDifficulty: boolean;
 }
 
-export function createPlayer(isHuman: boolean): Player {
+export function createPlayer(
+  isHuman: boolean,
+  isHardDifficulty: boolean
+): Player {
   return {
     isHuman: isHuman,
     gameboard: createGameboard(10),
     name: isHuman ? "Player 1" : "Player 2",
     isMyTurn: isHuman,
+    isHardDifficulty: isHardDifficulty,
     makeHumanMove: function (x: number = 0, y: number = 0, opponent: Player) {
       console.log(x);
       console.log(y);
@@ -28,56 +33,58 @@ export function createPlayer(isHuman: boolean): Player {
     },
     makeComputerMove: function (opponent: Player) {
       if (!this.isHuman) {
-        let hitCells = opponent.gameboard.getHitCells();
-        if (hitCells.length > 0) {
-          let adjacentMoveModifiers: number[][] = [
-            [0, 1],
-            [1, 0],
-            [-1, 0],
-            [0, -1],
-          ];
+        if (this.isHardDifficulty) {
+          let hitCells = opponent.gameboard.getHitCells();
+          if (hitCells.length > 0) {
+            let adjacentMoveModifiers: number[][] = [
+              [0, 1],
+              [1, 0],
+              [-1, 0],
+              [0, -1],
+            ];
 
-          let shuffleArray = function (array: any[]) {
-            for (let i = array.length - 1; i > 0; i--) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [array[i], array[j]] = [array[j], array[i]];
-            }
-          };
+            let shuffleArray = function (array: any[]) {
+              for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+              }
+            };
 
-          shuffleArray(adjacentMoveModifiers);
+            shuffleArray(adjacentMoveModifiers);
 
-          let lastHitCell = hitCells[hitCells.length - 1];
-          let validMoveFound = false;
-          while (!validMoveFound && adjacentMoveModifiers.length > 0) {
-            let modifier = adjacentMoveModifiers.pop();
-            if (modifier) {
-              let x = lastHitCell[0] + modifier[0];
-              let y = lastHitCell[1] + modifier[1];
-              if (
-                x >= 0 &&
-                x < opponent.gameboard.size &&
-                y >= 0 &&
-                y < opponent.gameboard.size &&
-                !opponent.gameboard
-                  .getMissedShots()
-                  .some((shot) => shot[0] === x && shot[1] === y) &&
-                !opponent.gameboard
-                  .getHitCells()
-                  .some((hit) => hit[0] === x && hit[1] === y)
-              ) {
-                opponent.gameboard.receiveAttack(x, y);
-                validMoveFound = true;
+            let lastHitCell = hitCells[hitCells.length - 1];
+            let validMoveFound = false;
+            while (!validMoveFound && adjacentMoveModifiers.length > 0) {
+              let modifier = adjacentMoveModifiers.pop();
+              if (modifier) {
+                let x = lastHitCell[0] + modifier[0];
+                let y = lastHitCell[1] + modifier[1];
+                if (
+                  x >= 0 &&
+                  x < opponent.gameboard.size &&
+                  y >= 0 &&
+                  y < opponent.gameboard.size &&
+                  !opponent.gameboard
+                    .getMissedShots()
+                    .some((shot) => shot[0] === x && shot[1] === y) &&
+                  !opponent.gameboard
+                    .getHitCells()
+                    .some((hit) => hit[0] === x && hit[1] === y)
+                ) {
+                  opponent.gameboard.receiveAttack(x, y);
+                  validMoveFound = true;
+                }
               }
             }
-          }
-          if (!validMoveFound) {
+            if (!validMoveFound) {
+              this.makeRandomMove(opponent);
+            }
+          } else {
             this.makeRandomMove(opponent);
           }
-        } else {
-          this.makeRandomMove(opponent);
         }
+        console.log("Computer made a move");
       }
-      console.log("Computer made a move");
     },
     makeRandomMove: function (opponent: Player) {
       let validRandomMove = false;
