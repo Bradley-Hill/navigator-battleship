@@ -3,6 +3,9 @@ import { Gameboard } from "./gameboard";
 
 document.addEventListener("DOMContentLoaded", () => {
   const startGameBtn = document.querySelector("#startBtn");
+  const difficultySelector = document.querySelector(
+    "#difficulty"
+  ) as HTMLSelectElement;
   const opponentBoard = document.querySelector(".opponentBoard");
   const playersBoard = document.querySelector(".playersBoard");
 
@@ -19,8 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Players board not found");
   }
 
-  if (startGameBtn) {
+  if (startGameBtn && difficultySelector) {
     startGameBtn.addEventListener("click", () => {
+      difficultySelector.disabled = true;
       gameLoop.startGame();
       if (playersBoard instanceof HTMLElement) {
         createGrid(
@@ -32,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameLoop.manageTurns();
     });
   } else {
-    console.error("Start Game button not found");
+    console.error("Start Game button or difficulty selector not found");
   }
 
   function createGrid(

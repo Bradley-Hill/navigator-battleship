@@ -107,6 +107,13 @@ h3 {
   background: red;
 }
 
+.difficultyCheck {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 .gameInfoContainer {
   display: flex;
   justify-content: space-around;

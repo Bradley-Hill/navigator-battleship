@@ -336,12 +336,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createPlayer = void 0;
 var gameboard_1 = require("../src/gameboard");
-function createPlayer(isHuman) {
+function createPlayer(isHuman, isHardDifficulty) {
   return {
     isHuman: isHuman,
     gameboard: (0, gameboard_1.createGameboard)(10),
     name: isHuman ? "Player 1" : "Player 2",
     isMyTurn: isHuman,
+    isHardDifficulty: isHardDifficulty,
     makeHumanMove: function makeHumanMove(x, y, opponent) {
       if (x === void 0) {
         x = 0;
@@ -353,99 +354,52 @@ function createPlayer(isHuman) {
       console.log(y);
       opponent.gameboard.receiveAttack(x, y);
     },
-    // makeComputerMove: function (opponent: Player) {
-    //   if (!this.isHuman) {
-    //     if (opponent.gameboard.getHitCells().length > 0) {
-    //       let adjacentMoveModifiers: number[][] = [
-    //         [0, 1],
-    //         [1, 0],
-    //         [-1, 0],
-    //         [0, -1],
-    //       ];
-    //       let lastHitCell =
-    //         opponent.gameboard.getHitCells()[
-    //           opponent.gameboard.getHitCells().length - 1
-    //         ];
-    //       for (let i = 0; i < adjacentMoveModifiers.length; i++) {
-    //         let x = lastHitCell[0] + adjacentMoveModifiers[i][0];
-    //         let y = lastHitCell[1] + adjacentMoveModifiers[i][1];
-    //         if (
-    //           x >= 0 &&
-    //           x < opponent.gameboard.size &&
-    //           y >= 0 &&
-    //           y < opponent.gameboard.size &&
-    //           !opponent.gameboard
-    //             .getMissedShots()
-    //             .some((shot) => shot[0] === x && shot[1] === y)
-    //         ) {
-    //           opponent.gameboard.receiveAttack(x, y);
-    //           return;
-    //         }
-    //       }
-    //     }
-    //     let validRandomMove = false;
-    //     let x: number = 0;
-    //     let y: number = 0;
-    //     while (!validRandomMove) {
-    //       x = Math.floor(Math.random() * opponent.gameboard.size);
-    //       y = Math.floor(Math.random() * opponent.gameboard.size);
-    //       const missedShots = opponent.gameboard.getMissedShots();
-    //       const hitCells = opponent.gameboard.getHitCells();
-    //       if (
-    //         !missedShots.some((shot) => shot[0] === x && shot[1] == y) &&
-    //         !hitCells.some((cell) => cell[0] === x && cell[1] === y)
-    //       ) {
-    //         validRandomMove = true;
-    //       }
-    //     }
-    //     opponent.gameboard.receiveAttack(x, y);
-    //   }
-    //   console.log("Computer made a move");
-    // },
     toggleTurn: function toggleTurn() {
       this.isMyTurn = !this.isMyTurn;
     },
     makeComputerMove: function makeComputerMove(opponent) {
       if (!this.isHuman) {
-        var hitCells = opponent.gameboard.getHitCells();
-        if (hitCells.length > 0) {
-          var adjacentMoveModifiers = [[0, 1], [1, 0], [-1, 0], [0, -1]];
-          var shuffleArray = function shuffleArray(array) {
-            var _a;
-            for (var i = array.length - 1; i > 0; i--) {
-              var j = Math.floor(Math.random() * (i + 1));
-              _a = __read([array[j], array[i]], 2), array[i] = _a[0], array[j] = _a[1];
-            }
-          };
-          shuffleArray(adjacentMoveModifiers);
-          var lastHitCell = hitCells[hitCells.length - 1];
-          var validMoveFound = false;
-          var _loop_1 = function _loop_1() {
-            var modifier = adjacentMoveModifiers.pop();
-            if (modifier) {
-              var x_1 = lastHitCell[0] + modifier[0];
-              var y_1 = lastHitCell[1] + modifier[1];
-              if (x_1 >= 0 && x_1 < opponent.gameboard.size && y_1 >= 0 && y_1 < opponent.gameboard.size && !opponent.gameboard.getMissedShots().some(function (shot) {
-                return shot[0] === x_1 && shot[1] === y_1;
-              }) && !opponent.gameboard.getHitCells().some(function (hit) {
-                return hit[0] === x_1 && hit[1] === y_1;
-              })) {
-                opponent.gameboard.receiveAttack(x_1, y_1);
-                validMoveFound = true;
+        if (this.isHardDifficulty) {
+          var hitCells = opponent.gameboard.getHitCells();
+          if (hitCells.length > 0) {
+            var adjacentMoveModifiers = [[0, 1], [1, 0], [-1, 0], [0, -1]];
+            var shuffleArray = function shuffleArray(array) {
+              var _a;
+              for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                _a = __read([array[j], array[i]], 2), array[i] = _a[0], array[j] = _a[1];
               }
+            };
+            shuffleArray(adjacentMoveModifiers);
+            var lastHitCell = hitCells[hitCells.length - 1];
+            var validMoveFound = false;
+            var _loop_1 = function _loop_1() {
+              var modifier = adjacentMoveModifiers.pop();
+              if (modifier) {
+                var x_1 = lastHitCell[0] + modifier[0];
+                var y_1 = lastHitCell[1] + modifier[1];
+                if (x_1 >= 0 && x_1 < opponent.gameboard.size && y_1 >= 0 && y_1 < opponent.gameboard.size && !opponent.gameboard.getMissedShots().some(function (shot) {
+                  return shot[0] === x_1 && shot[1] === y_1;
+                }) && !opponent.gameboard.getHitCells().some(function (hit) {
+                  return hit[0] === x_1 && hit[1] === y_1;
+                })) {
+                  opponent.gameboard.receiveAttack(x_1, y_1);
+                  validMoveFound = true;
+                }
+              }
+            };
+            while (!validMoveFound && adjacentMoveModifiers.length > 0) {
+              _loop_1();
             }
-          };
-          while (!validMoveFound && adjacentMoveModifiers.length > 0) {
-            _loop_1();
-          }
-          if (!validMoveFound) {
+            if (!validMoveFound) {
+              this.makeRandomMove(opponent);
+            }
+          } else {
             this.makeRandomMove(opponent);
           }
-        } else {
-          this.makeRandomMove(opponent);
         }
+        console.log("Computer made a move");
       }
-      console.log("Computer made a move");
     },
     makeRandomMove: function makeRandomMove(opponent) {
       var validRandomMove = false;
@@ -541,6 +495,7 @@ Object.defineProperty(exports, "__esModule", {
 var gameLoop_1 = require("../src/gameLoop");
 document.addEventListener("DOMContentLoaded", function () {
   var startGameBtn = document.querySelector("#startBtn");
+  var difficultySelector = document.querySelector("#difficulty");
   var opponentBoard = document.querySelector(".opponentBoard");
   var playersBoard = document.querySelector(".playersBoard");
   var gameLoop = (0, gameLoop_1.createGameLoop)();
@@ -554,8 +509,9 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     console.error("Players board not found");
   }
-  if (startGameBtn) {
+  if (startGameBtn && difficultySelector) {
     startGameBtn.addEventListener("click", function () {
+      difficultySelector.disabled = true;
       gameLoop.startGame();
       if (playersBoard instanceof HTMLElement) {
         createGrid(gameLoop.humanPlayer.gameboard, playersBoard, "playersBoard");
@@ -563,7 +519,7 @@ document.addEventListener("DOMContentLoaded", function () {
       gameLoop.manageTurns();
     });
   } else {
-    console.error("Start Game button not found");
+    console.error("Start Game button or difficulty selector not found");
   }
   function createGrid(gameboard, htmlGrid, boardClass) {
     htmlGrid.innerHTML = "";
@@ -666,7 +622,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55333" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54114" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
