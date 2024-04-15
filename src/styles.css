@@ -26,9 +26,10 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  width: 75%;
-  height: 75%;
+  width: 50%;
+  height: 50%;
   margin: auto;
+  padding: 2rem;
   background: rgba(0, 0, 0, 0.8);
   display: none;
   justify-content: center;
@@ -36,6 +37,17 @@ h3 {
   flex-direction: column;
   text-align: center;
   color: #f9f9f9;
+}
+
+#closeButton {
+  font-size: 2rem;
+  padding: 0.6rem 1.2rem;
+  margin-top: 1.25rem;
+  background: crimson;
+  color: #f9f9f9;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .container {
@@ -178,6 +190,9 @@ h3 {
 }
 
 @media (max-width: 600px) {
+  .introduction {
+    height: 90%;
+  }
   .boardContainer {
     flex-direction: column;
   }
