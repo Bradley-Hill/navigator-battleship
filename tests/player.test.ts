@@ -68,8 +68,8 @@ test("Expect computer player to make a valid random move", () => {
 });
 
 test("Expect the computer player to make a move adjacent to a confirmed hit", () => {
-  const humanPlayer = createPlayer(true, false);
-  const compPlayer = createPlayer(false, false);
+  const humanPlayer = createPlayer(true, true);
+  const compPlayer = createPlayer(false, true);
   humanPlayer.gameboard.createShips(1, 1, 3, "vertical");
 
   let hit = false;

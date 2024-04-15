@@ -2,7 +2,7 @@ import { Gameboard } from "../src/gameboard";
 import { createGameLoop } from "../src/gameLoop";
 
 test("Expect the gameLoop to create a human player and computer player,with gameBoards", () => {
-  const gameLoop = createGameLoop();
+  const gameLoop = createGameLoop(false);
   expect(gameLoop.humanPlayer).toBeDefined();
   expect(gameLoop.compPlayer).toBeDefined();
   expect(gameLoop.humanPlayer.isHuman).toBe(true);
@@ -12,7 +12,7 @@ test("Expect the gameLoop to create a human player and computer player,with game
 });
 
 test("Expect the gameLoop to place 5 ships on each gameboard", () => {
-  const gameLoop = createGameLoop();
+  const gameLoop = createGameLoop(false);
   gameLoop.startGame();
 
   const humanPlayerGameboard = gameLoop.humanPlayer.gameboard;
@@ -35,7 +35,7 @@ test("Expect the gameLoop to place 5 ships on each gameboard", () => {
 });
 
 test("Expect checkEndOfGame to correctly set gameOver to true", () => {
-  const gameLoop = createGameLoop();
+  const gameLoop = createGameLoop(false);
   gameLoop.startGame();
 
   for (let i = 0; i < 10; i++) {
@@ -49,6 +49,6 @@ test("Expect checkEndOfGame to correctly set gameOver to true", () => {
 });
 
 test("Expect gameOver to be false after createGameLoop is called", () => {
-  const gameLoop = createGameLoop();
+  const gameLoop = createGameLoop(false);
   expect(gameLoop.gameOver).toBe(false);
 });
