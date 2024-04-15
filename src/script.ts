@@ -2,6 +2,8 @@ import { createGameLoop } from "../src/gameLoop";
 import { Gameboard } from "./gameboard";
 
 document.addEventListener("DOMContentLoaded", () => {
+  const introduction = document.querySelector(".introduction") as HTMLElement;
+  const closeButton = document.querySelector("#closeButton");
   const startGameBtn = document.querySelector("#startBtn");
   const difficultySelector = document.querySelector(
     "#difficulty"
@@ -10,6 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const playersBoard = document.querySelector(".playersBoard");
 
   let gameLoop = createGameLoop(false);
+
+  if (introduction && closeButton) {
+    introduction.style.display = "flex";
+    closeButton.addEventListener("click", () => {
+      introduction.style.display = "none";
+    });
+  }
 
   if (opponentBoard instanceof HTMLElement) {
     createGrid(gameLoop.humanPlayer.gameboard, opponentBoard, "opponentBoard");

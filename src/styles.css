@@ -20,6 +20,24 @@ h3 {
   padding: 0.5rem;
 }
 
+.introduction {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 75%;
+  height: 75%;
+  margin: auto;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  color: #f9f9f9;
+}
+
 .container {
   display: flex;
   flex-direction: column;

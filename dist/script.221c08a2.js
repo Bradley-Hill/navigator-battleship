@@ -499,11 +499,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 var gameLoop_1 = require("../src/gameLoop");
 document.addEventListener("DOMContentLoaded", function () {
+  var introduction = document.querySelector(".introduction");
+  var closeButton = document.querySelector("#closeButton");
   var startGameBtn = document.querySelector("#startBtn");
   var difficultySelector = document.querySelector("#difficulty");
   var opponentBoard = document.querySelector(".opponentBoard");
   var playersBoard = document.querySelector(".playersBoard");
   var gameLoop = (0, gameLoop_1.createGameLoop)(false);
+  if (introduction && closeButton) {
+    introduction.style.display = "flex";
+    closeButton.addEventListener("click", function () {
+      introduction.style.display = "none";
+    });
+  }
   if (opponentBoard instanceof HTMLElement) {
     createGrid(gameLoop.humanPlayer.gameboard, opponentBoard, "opponentBoard");
   } else {
