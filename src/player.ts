@@ -83,7 +83,7 @@ export function createPlayer(
         } else {
           this.makeRandomMove(opponent);
         }
-        alert("Computer has made an attack");
+        // alert("Computer has made an attack");
       }
     },
     makeRandomMove: function (opponent: Player) {

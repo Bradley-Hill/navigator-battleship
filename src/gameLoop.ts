@@ -61,9 +61,11 @@ export function createGameLoop(isHardDifficulty: boolean): Gameloop {
     checkEndOfGame: function () {
       if (this.compPlayer.gameboard.allShipsSunk()) {
         alert("Congratulations! You have won!");
+        console.log("Congratulations! You have won!");
         this.gameOver = true;
       } else if (this.humanPlayer.gameboard.allShipsSunk()) {
         alert("Game Over, you lost...");
+        console.log("Game Over, you lost...");
         this.gameOver = true;
       }
     },
