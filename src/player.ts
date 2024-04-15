@@ -23,8 +23,6 @@ export function createPlayer(
     isMyTurn: isHuman,
     isHardDifficulty: isHardDifficulty,
     makeHumanMove: function (x: number = 0, y: number = 0, opponent: Player) {
-      console.log(x);
-      console.log(y);
       opponent.gameboard.receiveAttack(x, y);
     },
 
@@ -85,7 +83,7 @@ export function createPlayer(
         } else {
           this.makeRandomMove(opponent);
         }
-        console.log("Computer made a move");
+        alert("Computer has made an attack");
       }
     },
     makeRandomMove: function (opponent: Player) {

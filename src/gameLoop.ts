@@ -39,7 +39,6 @@ export function createGameLoop(isHardDifficulty: boolean): Gameloop {
         return;
       }
       if (this.humanPlayer.isMyTurn) {
-        console.log("Human players Turn");
         if (x !== undefined && y !== undefined) {
           this.humanPlayer.makeHumanMove(x, y, this.compPlayer);
           this.checkEndOfGame();
@@ -61,10 +60,10 @@ export function createGameLoop(isHardDifficulty: boolean): Gameloop {
     },
     checkEndOfGame: function () {
       if (this.compPlayer.gameboard.allShipsSunk()) {
-        console.log("Congratulations! You have won!");
+        alert("Congratulations! You have won!");
         this.gameOver = true;
       } else if (this.humanPlayer.gameboard.allShipsSunk()) {
-        console.log("Game Over, you lost...");
+        alert("Game Over, you lost...");
         this.gameOver = true;
       }
     },

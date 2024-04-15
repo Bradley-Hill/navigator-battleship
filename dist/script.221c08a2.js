@@ -352,8 +352,6 @@ function createPlayer(isHuman, isHardDifficulty) {
       if (y === void 0) {
         y = 0;
       }
-      console.log(x);
-      console.log(y);
       opponent.gameboard.receiveAttack(x, y);
     },
     toggleTurn: function toggleTurn() {
@@ -402,7 +400,7 @@ function createPlayer(isHuman, isHardDifficulty) {
         } else {
           this.makeRandomMove(opponent);
         }
-        console.log("Computer made a move");
+        alert("Computer has made an attack");
       }
     },
     makeRandomMove: function makeRandomMove(opponent) {
@@ -461,7 +459,6 @@ function createGameLoop(isHardDifficulty) {
         return;
       }
       if (this.humanPlayer.isMyTurn) {
-        console.log("Human players Turn");
         if (x !== undefined && y !== undefined) {
           this.humanPlayer.makeHumanMove(x, y, this.compPlayer);
           this.checkEndOfGame();
@@ -482,10 +479,10 @@ function createGameLoop(isHardDifficulty) {
     },
     checkEndOfGame: function checkEndOfGame() {
       if (this.compPlayer.gameboard.allShipsSunk()) {
-        console.log("Congratulations! You have won!");
+        alert("Congratulations! You have won!");
         this.gameOver = true;
       } else if (this.humanPlayer.gameboard.allShipsSunk()) {
-        console.log("Game Over, you lost...");
+        alert("Game Over, you lost...");
         this.gameOver = true;
       }
     },
@@ -523,13 +520,6 @@ document.addEventListener("DOMContentLoaded", function () {
       var isHardDifficulty = difficultySelector.value === "Hard";
       gameLoop = (0, gameLoop_1.createGameLoop)(isHardDifficulty);
       gameLoop.startGame();
-      // if (playersBoard instanceof HTMLElement) {
-      //   createGrid(
-      //     gameLoop.humanPlayer.gameboard,
-      //     playersBoard,
-      //     "playersBoard"
-      //   );
-      // }
       if (opponentBoard instanceof HTMLElement) {
         createGrid(gameLoop.humanPlayer.gameboard, opponentBoard, "opponentBoard");
       } else {

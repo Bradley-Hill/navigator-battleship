@@ -28,13 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
       let isHardDifficulty = difficultySelector.value === "Hard";
       gameLoop = createGameLoop(isHardDifficulty);
       gameLoop.startGame();
-      // if (playersBoard instanceof HTMLElement) {
-      //   createGrid(
-      //     gameLoop.humanPlayer.gameboard,
-      //     playersBoard,
-      //     "playersBoard"
-      //   );
-      // }
 
       if (opponentBoard instanceof HTMLElement) {
         createGrid(
