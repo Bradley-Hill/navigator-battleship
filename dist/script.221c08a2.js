@@ -549,19 +549,14 @@ document.addEventListener("DOMContentLoaded", function () {
         cell.dataset.y = j.toString();
         if (boardClass === "opponentBoard") {
           cell.addEventListener("click", function (event) {
-            if (!gameLoop.isGameStarted()) {
-              alert("Please click the Start Game button before making a move.");
-              event.preventDefault();
+            var target = event.target;
+            if (target.dataset.x && target.dataset.y) {
+              var x = parseInt(target.dataset.x, 10);
+              var y = parseInt(target.dataset.y, 10);
+              gameLoop.manageTurns(x, y);
+              updateMoveLists();
             } else {
-              var target = event.target;
-              if (target.dataset.x && target.dataset.y) {
-                var x = parseInt(target.dataset.x, 10);
-                var y = parseInt(target.dataset.y, 10);
-                gameLoop.manageTurns(x, y);
-                updateMoveLists();
-              } else {
-                console.error("Data attributes x and y are not set");
-              }
+              console.error("Data attributes x and y are not set");
             }
           });
         }
