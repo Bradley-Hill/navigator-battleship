@@ -7,15 +7,17 @@
     <link rel="stylesheet" href="/styles.8986bff4.css">
   <script src="/styles.8986bff4.js"></script></head>
   <body>
-    <div class="container">
-      <div class="title">
+    <main class="container">
+      <header class="title">
         <h1>Bradleys Battleships</h1>
-      </div>
-      <div class="buttonContainer">
-        <button type="button" id="startBtn" onclick="">Start Game!</button>
-      </div>
+      </header>
+      <section class="buttonContainer">
+        <button type="button" id="startBtn" role="StartGameButton" onclick="">
+          Start Game!
+        </button>
+      </section>
 
-      <div class="boardContainer">
+      <section aria-label="Game Boards" class="boardContainer">
         <div class="playersBoardContainer">
           <h2>Players Board</h2>
 
@@ -30,33 +32,33 @@
             <!-- add grid representing opponents board with hits and misses -->
           </div>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <div class="difficultyCheck">
-      <label for="difficulty">Difficulty:</label>
-      <select id="difficulty">
-        <option value="Easy">Easy</option>
-        <option value="Hard">Hard</option>
-      </select>
-    </div>
+      <section class="difficultyCheck">
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty">
+          <option value="Easy">Easy</option>
+          <option value="Hard">Hard</option>
+        </select>
+      </section>
 
-    <div class="gameInfoContainer">
-      <div class="humanInfo">
-        <h2>Human Board</h2>
-        <h3>Missed Attacks(x,y):</h3>
-        <p id="humanMissedAttacks"></p>
-        <h3>Hit Cells(x,y):</h3>
-        <p id="humanHitCells"></p>
-      </div>
-      <div class="compInfo">
-        <h2>Computer Board</h2>
-        <h3>Missed Attacks(x,y):</h3>
-        <p id="computerMissedAttacks"></p>
-        <h3>Hit Cells(x,y):</h3>
-        <p id="computerHitCells"></p>
-      </div>
-    </div>
+      <section aria-label="Game State Information" class="gameInfoContainer">
+        <div class="humanInfo">
+          <h2>Human Board</h2>
+          <h3>Missed Attacks(x,y):</h3>
+          <p id="humanMissedAttacks"></p>
+          <h3>Hit Cells(x,y):</h3>
+          <p id="humanHitCells"></p>
+        </div>
+        <div class="compInfo">
+          <h2>Computer Board</h2>
+          <h3>Missed Attacks(x,y):</h3>
+          <p id="computerMissedAttacks"></p>
+          <h3>Hit Cells(x,y):</h3>
+          <p id="computerHitCells"></p>
+        </div>
+      </section>
+    </main>
     <script src="/script.221c08a2.js"></script>
   </body>
 </html>

@@ -6,7 +6,7 @@
 }
 
 body {
-  font-size: 16px;
+  font-size: 1rem;
   font-family: Arial, sans-serif;
 }
 
@@ -24,8 +24,10 @@ h3 {
   display: flex;
   flex-direction: column;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 0.5rem;
+  padding: 1.25rem;
+  border: 2px solid #333;
+  border-radius: 0.6rem;
 }
 .title {
   display: flex;
@@ -40,6 +42,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 1rem;
 }
 #startBtn {
   padding: 10px 20px;
@@ -48,7 +51,7 @@ h3 {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 1rem;
   transition: background-color 0.3s ease;
   width: 200px;
   padding: 0.5rem 1rem;
@@ -111,10 +114,32 @@ h3 {
 }
 
 .difficultyCheck {
+  margin: 1.25rem 0;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
+}
+
+.difficultyCheck label {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: bold;
+}
+
+#difficulty {
+  padding: 0.5rem;
+  padding-right: 1.25rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" viewBox="0 0 32 32"><path d="M16 22L6 9h20l-10 13z"/></svg>'); /* This is to add a custom dropdown arrow */
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 1.25rem;
 }
 
 .gameInfoContainer {
