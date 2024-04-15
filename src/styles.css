@@ -11,10 +11,13 @@ body {
 }
 
 h1,
-h2,
-h3 {
+h2 {
   padding: 0.5rem;
   text-decoration: underline;
+}
+
+h3 {
+  padding: 0.5rem;
 }
 
 .container {
