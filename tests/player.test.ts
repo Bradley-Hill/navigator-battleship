@@ -1,4 +1,5 @@
 import { createPlayer } from "../src/player";
+global.alert = jest.fn();
 
 test("Expect the createPlayer function to return an object", () => {
   const player = createPlayer(true, false);

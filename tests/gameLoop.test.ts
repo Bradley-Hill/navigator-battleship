@@ -1,5 +1,6 @@
 import { Gameboard } from "../src/gameboard";
 import { createGameLoop } from "../src/gameLoop";
+global.alert = jest.fn();
 
 test("Expect the gameLoop to create a human player and computer player,with gameBoards", () => {
   const gameLoop = createGameLoop(false);
