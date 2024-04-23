@@ -1,28 +1,6 @@
-import { createShip, Ship } from "../src/ship";
-
-export type Cell = {
-  occupied: boolean;
-  hit: boolean;
-  ship: Ship | null;
-};
-
-export interface Gameboard {
-  size: number;
-  grid: Cell[][];
-  createShips(
-    gameboardX: number,
-    gameboardY: number,
-    shipSize: number,
-    orientation: "horizontal" | "vertical"
-  ): Ship | null;
-  createAllShips(): void;
-  receiveAttack(gameboardX: number, gameboardY: number): void;
-  missedAttacks: [number, number][];
-  hitCells: number[][];
-  allShipsSunk(): boolean;
-  getMissedShots: () => number[][];
-  getHitCells: () => number[][];
-}
+import { createShip } from "../src/ship";
+import { Ship } from "./models/shipInterface";
+import { Gameboard } from "./models/gameboardInterface";
 
 export function createGameboard(size: number): Gameboard {
   let gameboard: Gameboard = {

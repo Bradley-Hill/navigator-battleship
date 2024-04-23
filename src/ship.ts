@@ -1,11 +1,4 @@
-export interface Ship {
-  length: number;
-  impacts: number;
-  sunk: boolean;
-  position: [number, number][] | null;
-  hit(): void;
-  isSunk(): void;
-}
+import { Ship } from "../src/models/shipInterface";
 
 export function createShip(size: number): Ship {
   return {

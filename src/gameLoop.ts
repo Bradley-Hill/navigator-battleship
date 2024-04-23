@@ -1,17 +1,6 @@
 import { createGameboard } from "../src/gameboard";
-import { createPlayer, Player } from "../src/player";
-
-export interface Gameloop {
-  gameStarted: boolean;
-  setDifficulty: (isHardDifficulty: boolean) => void;
-  isGameStarted: () => boolean;
-  startGame: () => void;
-  humanPlayer: Player;
-  compPlayer: Player;
-  manageTurns: (x?: number, y?: number) => void;
-  checkEndOfGame: () => void;
-  gameOver: boolean;
-}
+import { createPlayer } from "../src/player";
+import { Gameloop } from "../src/models/gameloopInterface";
 
 export function createGameLoop(isHardDifficulty: boolean): Gameloop {
   let gameLoop: Gameloop = {
