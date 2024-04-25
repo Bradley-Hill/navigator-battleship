@@ -52,10 +52,10 @@ export function createPlayer(
                   y >= 0 &&
                   y < opponent.gameboard.size &&
                   !opponent.gameboard.missedAttacks.some(
-                    (shot) => shot[0] === x && shot[1] === y
+                    (shot: [number, number]) => shot[0] === x && shot[1] === y
                   ) &&
                   !opponent.gameboard.hitCells.some(
-                    (hit) => hit[0] === x && hit[1] === y
+                    (hit: [number, number]) => hit[0] === x && hit[1] === y
                   )
                 ) {
                   opponent.gameboard.receiveAttack(x, y);
@@ -86,8 +86,12 @@ export function createPlayer(
         const missedShots = opponent.gameboard.getMissedShots();
         const hitCells = opponent.gameboard.getHitCells();
         if (
-          !missedShots.some((shot) => shot[0] === x && shot[1] == y) &&
-          !hitCells.some((cell) => cell[0] === x && cell[1] === y)
+          !missedShots.some(
+            (shot: [number, number]) => shot[0] === x && shot[1] == y
+          ) &&
+          !hitCells.some(
+            (cell: [number, number]) => cell[0] === x && cell[1] === y
+          )
         ) {
           validRandomMove = true;
         }
