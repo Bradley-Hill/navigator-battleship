@@ -57,6 +57,6 @@ Distributed under the ISC License.
 
 ### Contact
 
-Bradley M. Hill - @kingmObYojimbo - brad.michael.hill@gmail.com
+Bradley M. Hill - @kingmObYojimbo - contact@bradley-hill.com
 
 Project Link: https://github.com/Bradley-Hill/odinproject-battleship
