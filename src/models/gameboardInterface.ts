@@ -13,8 +13,8 @@ export interface Gameboard {
   createAllShips(): void;
   receiveAttack(gameboardX: number, gameboardY: number): void;
   missedAttacks: [number, number][];
-  hitCells: number[][];
+  hitCells: [number, number][];
   allShipsSunk(): boolean;
-  getMissedShots: () => number[][];
-  getHitCells: () => number[][];
+  getMissedShots: () => [number, number][];
+  getHitCells: () => [number, number][];
 }

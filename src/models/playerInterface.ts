@@ -1,4 +1,4 @@
-import { Gameboard } from "../gameboard";
+import { Gameboard } from "./gameboardInterface";
 
 export interface Player {
   isHuman: boolean;

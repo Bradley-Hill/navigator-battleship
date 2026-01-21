@@ -1,4 +1,5 @@
-import { createGameboard, Cell } from "../src/gameboard";
+import { createGameboard } from "../src/gameboard";
+import { Cell } from "../src/models/cellInterface";
 
 test("Does createGameboard return an object", () => {
   const gameboard = createGameboard(5);

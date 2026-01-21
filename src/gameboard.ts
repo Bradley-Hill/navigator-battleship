@@ -2,6 +2,8 @@ import { createShip } from "../src/ship";
 import { Ship } from "./models/shipInterface";
 import { Gameboard } from "./models/gameboardInterface";
 
+export {Gameboard};
+
 export function createGameboard(size: number): Gameboard {
   let gameboard: Gameboard = {
     size: size,
@@ -82,7 +84,7 @@ export function createGameboard(size: number): Gameboard {
       return this.missedAttacks;
     },
     getHitCells: function () {
-      const hitCells: number[][] = [];
+      const hitCells: [number, number][] = [];
       for (let i = 0; i < this.size; i++) {
         for (let j = 0; j < this.size; j++) {
           if (this.grid[i][j].hit) {
