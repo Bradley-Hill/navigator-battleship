@@ -6,7 +6,7 @@
   "scripts": {
     "start": "parcel src/index.html",
     "test": "jest",
-    "build": "tsc",
+    "build": "parcel build src/index.html",
     "lint": "tslint -c tslint.json src/**/*.ts",
     "prepublish": "npm run build"
   },

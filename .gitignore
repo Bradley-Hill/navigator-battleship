@@ -1,4 +1,5 @@
 node_modules
 .cache
 lib
-dist
+dist/
+.parcel-cache
